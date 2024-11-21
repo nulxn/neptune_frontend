@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Show the tools versions
 python --version

@@ -3,9 +3,6 @@ PORT ?= 4887
 REPO_NAME ?= flocker_frontend 
 LOG_FILE = /tmp/jekyll$(PORT).log
 
-SHELL = /bin/bash -c
-.SHELLFLAGS = -e # Exceptions will stop make, works on MacOS
-
 # Phony Targets, makefile housekeeping for below definitions
 .PHONY: default server issues convert clean stop
 
