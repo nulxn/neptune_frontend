@@ -1,0 +1,214 @@
+<!-- Header Section: Logo and Title -->
+<div class="header-container">
+    <div class="logo-container">
+        <img src="{{site.baseurl}}/navigation/images/neptune.png" alt="Logo">
+    </div>
+    <h1>Schedule</h1>
+</div>
+
+<!-- Main Content Container -->
+<div id="progressContainer">
+    <!-- Left Section: Period Buttons (Dropdowns) -->
+    <div class="dropdown-section">
+        <div class="mini-dropdown-container">
+            <button class="mini-dropdown">Period 1</button>
+            <button class="mini-dropdown">Period 2</button>
+            <button class="mini-dropdown">Period 3</button>
+            <button class="mini-dropdown">Period 4</button>
+            <button class="mini-dropdown">Period 5</button>
+        </div>
+    </div>
+
+    <!-- Right Section: Timer -->
+    <div class="timer-section">
+        <div class="timer">
+            <svg width="500" height="500">
+                <!-- Outer Circle (background circle) with gradient stroke -->
+                <circle cx="250" cy="250" r="220" stroke="lightgray" stroke-width="30" fill="none"></circle>
+
+                <!-- Progress Circle (will change based on time) -->
+                <circle id="progressCircle" cx="250" cy="250" r="220" stroke="url(#gradient)" stroke-width="30" fill="none" stroke-dasharray="1382" stroke-dashoffset="1382"></circle>
+
+                <!-- Gradient Definition -->
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color: blue; stop-opacity: 1" />
+                        <stop offset="100%" style="stop-color: black; stop-opacity: 1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div id="timeText">Hours Left of School</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Header Styling */
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .logo-container {
+        margin-right: 25px;
+    }
+
+    .logo-container img {
+        height: 110px;
+        width: auto;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        color: white;
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Main Content Styling */
+    #progressContainer {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        align-items: center;
+        color: white;
+    }
+
+    /* Timer Section */
+    .timer-section {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    #timeText {
+        font-size: 20px;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-shadow: 0 0 5px purple, 0 0 10px purple;
+        padding: 10px;
+    }
+
+    /* Dropdown Section */
+    .dropdown-section {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mini-dropdown-container {
+        text-align: center;
+        color: white;
+        width: 100%;
+    }
+
+    .mini-dropdown {
+        background: linear-gradient(135deg, #4e4e4e, #1a1a1a);
+        color: white;
+        font-size: 1.5rem;
+        border: none;
+        border-radius: 20px;
+        padding: 15px 20px;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        margin: 10px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mini-dropdown:hover {
+        background: linear-gradient(135deg, #6a6a6a, #2d2d2d);
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .mini-dropdown:focus {
+        outline: none;
+    }
+
+    .mini-dropdown::after {
+        content: "▼";
+        font-size: 1.2rem;
+        margin-left: 10px;
+    }
+
+    /* SVG and Circle Styling */
+    svg {
+        margin-bottom: -40px;
+    }
+
+    /* Glow Effect for Progress Circle */
+    #progressCircle {
+        filter: drop-shadow(0 0 15px purple) drop-shadow(0 0 30px purple);  /* Glow effect */
+        transition: stroke-dashoffset 1s ease-in-out; /* Smooth animation */
+    }
+</style>
+
+<script>
+    const schoolStart = new Date();
+    schoolStart.setHours(8, 35, 0, 0); // Adjust start time to 8:35 AM
+
+    const schoolEnd = new Date();
+    schoolEnd.setHours(15, 45, 0, 0); // Adjust end time to 3:45 PM
+
+    const radius = 220;  // Adjusted for larger circle
+    const circumference = 2 * Math.PI * radius;
+
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    const svg = document.querySelector("svg");
+    const progressCircle = svg.querySelector("#progressCircle");
+
+    function updateProgress() {
+        const now = new Date();
+
+        const totalSchoolTime = schoolEnd - schoolStart;
+        let elapsedSchoolTime = 0;
+
+        if (now >= schoolStart && now < schoolEnd) {
+            elapsedSchoolTime = now - schoolStart;
+        } else if (now >= schoolEnd) {
+            elapsedSchoolTime = totalSchoolTime;
+        }
+
+        const progress = (elapsedSchoolTime / totalSchoolTime) * circumference;
+        progressCircle.setAttribute("stroke-dashoffset", circumference - progress);
+
+        let message;
+        if (now < schoolStart) {
+            message = `School starts in ${Math.floor((schoolStart - now) / 60000)} minutes.`;
+        } else if (now < schoolEnd) {
+            const remainingTime = schoolEnd - now;
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+
+            message = `Time left: ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+            // Fill the circle when school is over
+            progressCircle.setAttribute("stroke-dashoffset", "0");
+            message = 'School is over!';
+        }
+
+        document.getElementById('timeText').textContent = message;
+    }
+
+    // Initialize the progress animation when the page loads
+    updateProgress();
+
+    // Update every second to keep it dynamic
+    setInterval(updateProgress, 1000);
+</script>
