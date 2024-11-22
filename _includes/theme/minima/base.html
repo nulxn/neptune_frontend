@@ -3,8 +3,15 @@
 <body>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      console.log("Hello, World!");
-      console.log(window.location.href);
+      let _paths = window.location.pathname.split("/").filter(Boolean);
+      if (_paths.length > 21 {
+        // not on the main page
+        console.log("not on the main page");
+        /*
+                document
+          .getElementsByClassName("page-content")[0]
+          .classList.remove("hidden-pg");*/
+      }
     });
   </script>
   {%- include header.html -%}
@@ -42,6 +49,10 @@
       100% {
         background-position: 0% 50%;
       }
+    }
+
+    .hidden-pg {
+      display: none !important;
     }
   </style>
 </body>
