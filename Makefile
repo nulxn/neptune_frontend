@@ -2,6 +2,7 @@
 PORT ?= 4887
 REPO_NAME ?= flocker_frontend 
 LOG_FILE = /tmp/jekyll$(PORT).log
+SHELL := /bin/bash
 
 # Phony Targets, makefile housekeeping for below definitions
 .PHONY: default server issues convert clean stop

@@ -1,4 +1,4 @@
---
+---
 layout: post
 title: Profile
 search_exclude: true
@@ -55,10 +55,8 @@ author: Kanhay Patil
   </style>
 </head>
 <body>
-
   <h1>Set Your Profile Picture</h1>
   <button id="OpenOptionsModal">Set Profile Picture</button>
-
   <!-- Options Modal -->
   <div id="optionsModal" class="modal">
     <div class="modal-content">
@@ -68,7 +66,6 @@ author: Kanhay Patil
       <button id="CloseOptionsModal">Cancel</button>
     </div>
   </div>
-
   <!-- Webcam Modal -->
   <div id="webcamModal" class="modal">
     <div class="modal-content">
@@ -80,14 +77,12 @@ author: Kanhay Patil
       <div id="ImagePreviewContainer"></div>
     </div>
   </div>
-
   <script>
     const openOptionsModalButton = document.getElementById('OpenOptionsModal');
     const optionsModal = document.getElementById('optionsModal');
     const uploadPhotoButton = document.getElementById('UploadPhoto');
     const takePictureOptionButton = document.getElementById('TakePictureOption');
     const closeOptionsModalButton = document.getElementById('CloseOptionsModal');
-
     const webcamModal = document.getElementById('webcamModal');
     const openWebcamButton = document.getElementById('OpenWebcam');
     const closeWebcamButton = document.getElementById('CloseWebcam');
@@ -95,20 +90,16 @@ author: Kanhay Patil
     const takePictureButton = document.getElementById('TakePicture');
     const usePictureButton = document.getElementById('UsePicture');
     const retakePhotoButton = document.getElementById('RetakePhoto');
-
     let webcamStream = null;
     let capturedImage = null; // Variable to store the captured image
-
     // Open the options modal
     openOptionsModalButton.addEventListener('click', () => {
       optionsModal.style.display = 'flex';
     });
-
     // Close the options modal
     closeOptionsModalButton.addEventListener('click', () => {
       optionsModal.style.display = 'none';
     });
-
     // Choose "Upload a Photo" option
 uploadPhotoButton.addEventListener('click', () => {
   const input = document.createElement('input');
@@ -129,8 +120,6 @@ uploadPhotoButton.addEventListener('click', () => {
   input.click();
   optionsModal.style.display = 'none'; // Close the options modal
 });
-
-
     // Choose "Take a Picture" option
     takePictureOptionButton.addEventListener('click', async () => {
       optionsModal.style.display = 'none'; // Close the options modal
@@ -142,7 +131,6 @@ uploadPhotoButton.addEventListener('click', () => {
         alert('Error accessing webcam: ' + error.message);
       }
     });
-
     // Close the webcam modal
     closeWebcamButton.addEventListener('click', () => {
       if (webcamStream) {
@@ -154,51 +142,40 @@ uploadPhotoButton.addEventListener('click', () => {
       webcamModal.style.display = 'none';
       resetModal();
     });
-
     // Take picture
     takePictureButton.addEventListener('click', () => {
       const canvas = document.createElement('canvas');
       canvas.width = videoElement.videoWidth;
       canvas.height = videoElement.videoHeight;
-
       const context = canvas.getContext('2d');
       context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
       capturedImage = canvas.toDataURL('image/png');
       const imagePreview = document.createElement('img');
       imagePreview.src = capturedImage;
-
       videoElement.style.display = 'none';
       videoElement.insertAdjacentElement('afterend', imagePreview);
-
       stopWebcamStream();
       takePictureButton.style.display = 'none';
       usePictureButton.style.display = 'inline-block';
       retakePhotoButton.style.display = 'inline-block';
     });
-
     // Use the captured picture
     usePictureButton.addEventListener('click', () => {
       alert('Picture used!');
       console.log(capturedImage);
       webcamModal.style.display = 'none';
     });
-
     // Retake the photo
     retakePhotoButton.addEventListener('click', async () => {
       const imagePreview = document.querySelector('img');
       if (imagePreview) imagePreview.remove();
-
       webcamStream = await navigator.mediaDevices.getUserMedia({ video: true });
       videoElement.srcObject = webcamStream;
-
       takePictureButton.style.display = 'inline-block';
       usePictureButton.style.display = 'none';
       retakePhotoButton.style.display = 'none';
-
       videoElement.style.display = 'block';
     });
-
     // Reset the webcam modal
     function resetModal() {
       takePictureButton.style.display = 'inline-block';
@@ -206,7 +183,6 @@ uploadPhotoButton.addEventListener('click', () => {
       retakePhotoButton.style.display = 'none';
       videoElement.style.display = 'block';
     }
-
     // Stop the webcam stream
     function stopWebcamStream() {
       if (webcamStream) {
@@ -220,28 +196,6 @@ uploadPhotoButton.addEventListener('click', () => {
     alert('No picture selected or captured!');
     return;
   }
-fetch('/upload', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ image: capturedImage }),
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log('Upload successful:', data);
-    alert('Image uploaded successfully!');
-  })
-  .catch((error) => {
-    console.error('Error uploading image:', error.message);
-    alert('Error uploading image. Please try again.');
-  });
-
 
   </script>
 </body>
