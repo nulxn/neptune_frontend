@@ -70,7 +70,7 @@ show_reading_time: false
     login,
     pythonURI,
     fetchOptions,
-  } from /*{{site.baseurl}}*/ "/assets/js/api/config.js";
+  } from "{{site.baseurl}}/assets/js/api/config.js";
 
   window.pythonLogin = function () {
     const options = {
