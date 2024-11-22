@@ -5,8 +5,3 @@ gem "github-pages", group: :jekyll_plugins
 gem "webrick", "~> 1.7"
 
 gem "execjs", "~> 2.8"
-gem "commonmarker", "~> 1.1"
-
-gem "racc", "~> 1.8"
-
-gem "jekyll", "~> 3.6"
