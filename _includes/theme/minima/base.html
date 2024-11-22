@@ -1,15 +1,18 @@
 {%- include head.html -%}
 
 <body>
-
   {%- include header.html -%}
 
   <main class="page-content" aria-label="Content">
-    <div class="wrapper">
-      {{ content }}
-    </div>
+    <div class="wrapper">{{ content }}</div>
   </main>
 
   {%- include theme/minima/footer.html -%}
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      console.log("Hello, World!");
+      console.log(window.location.href);
+    });
+  </script>
 </body>
