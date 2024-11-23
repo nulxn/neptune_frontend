@@ -1,61 +1,63 @@
 <table>
     <tr>
-        <td>
-            <!-- Static Navigation Links -->
-            <a href="{{site.baseurl}}/home">Home</a> |
-            <a href="{{site.baseurl}}/chat">Chat</a> |
-            <a href="{{site.baseurl}}/profile">Profile</a> |
-            <span id="usernameArea"></span> <!-- Placeholder for user info -->
-            <a href="{{site.baseurl}}/login" id="loginLink">Login</a>
-        </td>
+        <td id="loginArea"><a href="{{site.baseurl}}/login">Login</a></td>
     </tr>
 </table>
 
 <script type="module">
     import { pythonURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
-    document.addEventListener('DOMContentLoaded', function () {
-        getCredentials() // Fetch user data
-            .then(data => {
-                const usernameArea = document.getElementById('usernameArea');
-                const loginLink = document.getElementById('loginLink');
-
-                if (data) {
-                    // User is authenticated: display username and logout
-                    usernameArea.innerHTML = `${data.name} | `;
-                    loginLink.href = "{{site.baseurl}}/logout";
-                    loginLink.textContent = "Logout";
-                    loginLink.style.color = "red"; // Highlight logout in red
-                } else {
-                    // User is not authenticated: show Login link
-                    usernameArea.innerHTML = "";
-                    loginLink.href = "{{site.baseurl}}/login";
-                    loginLink.textContent = "Login";
-                    loginLink.style.color = ""; // Reset styling
-                }
-            })
-            .catch(err => {
-                console.error("Error fetching credentials: ", err);
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+    getCredentials() // Call the function to get credentials
+        .then(data => {
+            const loginArea = document.getElementById('loginArea');
+            if (data) { // Update the login area based on the data
+                // User is authenticated, replace "Login" with User's name
+                loginArea.innerHTML = `
+                    <table>
+                    <tr>
+                        <td id="navbar">
+                            <img src="{{site.baseurl}}/images/insertneptunelogohere.png" alt="logo" >
+                     </td>
+                        <td id="Home"><a href="{{site.baseurl}}/">Home</a></td>
+                        <td id="Chat"><a href="{{site.baseurl}}/posts">Chat</a></td>
+                        <td id="Classes"><a href="{{site.baseurl}}/choose_classes/">Classes</a></td>
+                        <td id="Profile"><a href="{{site.baseurl}}/profile">${data.name}</a></td>
+                        <td id="logout"><a href="{{site.baseurl}}/logout">Logout</a></td>
+                        <td id="HomeworkHelp"><a href="{{site.baseurl}}/ai_homework_bot/">Homework Help</a></td>
+                    </tr>
+                </table>
+                `;
+            } else {
+                // User is not authenticated, then "Login" link is shown
+                loginArea.innerHTML = '<a href="{{site.baseurl}}/login">Login</a>';
+            }
+        })
+        .catch(err => { // General error handler
+            console.error("Error fetching credentials: ", err);
+            // Handle any errors that occurred during getCredentials
+        });
     });
 
     function getCredentials() {
         const URL = pythonURI + '/api/user';
         return fetch(URL, fetchOptions)
-            .then(response => {
+            .then(response => { // API response handler 
                 if (response.status !== 200) {
                     console.error("HTTP status code: " + response.status);
-                    return null;
+                    return null; // prepares to stop the chain by returning null.
                 }
-                return response.json();
+                return response.json(); // plans to continue the chain with the data.
             })
-            .then(data => {
-                console.log(data); // Log the user data
-                return data;
+            .then(data => { // Data handler from the previous promise  
+                if (data === null) return null; // stops the chain, returns null.
+                console.log(data); // logs data with should contain uid, name, etc.
+                return data; // returns data to caller 
             })
-            .catch(err => {
+            .catch(err => { // General error handler
                 console.error("Fetch error: ", err);
                 return null;
             });
     }
+
 </script>
