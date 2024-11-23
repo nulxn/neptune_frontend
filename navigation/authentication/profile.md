@@ -119,11 +119,16 @@ show_reading_time: false
   // Import functions from config.js
   import { putUpdate, postUpdate, deleteData, logoutUser } from "{{site.baseurl}}/assets/js/api/profile.js";
   // Function to fetch user profile data
-// Function to fetch user profile data
 async function fetchUserProfile() {
-  const URL = pythonURI + "/api/id/pfp"; // Adjusted endpoint to fetch user profile data
+  const URL = pythonURI + "/api/id/pfp"; // Adjust endpoint to match your backend
   try {
     const response = await fetch(URL, fetchOptions);
+    if (response.status === 404) {
+      // If the user is new and there's no profile picture yet
+      console.warn("No profile picture found for this user.");
+      displayUserProfile({ pfp: null });
+      return;
+    }
     if (!response.ok) {
       throw new Error(`Failed to fetch user profile: ${response.status}`);
     }
@@ -131,7 +136,8 @@ async function fetchUserProfile() {
     displayUserProfile(profileData);
   } catch (error) {
     console.error("Error fetching user profile:", error.message);
-    document.getElementById('profile-message').textContent = 'Error loading profile data. Please try again.';
+    document.getElementById("profile-message").textContent =
+      "Error loading profile data. Please try again.";
   }
 }
 // Function to display user profile data
