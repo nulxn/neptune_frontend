@@ -1,0 +1,14 @@
+/* Button Hover Effect */
+#ai-bot-button:hover {
+    background-color: #003f6b; /* Even darker blue for hover */
+}
+
+/* Chatbox Scrollbar */
+#chat-box::-webkit-scrollbar {
+    width: 5px;
+}
+
+#chat-box::-webkit-scrollbar-thumb {
+    background: #0077be; /* Ocean blue */
+    border-radius: 5px;
+}
