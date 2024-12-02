@@ -148,8 +148,8 @@ input::placeholder {
   <div class="form-section">
     <form>
       <div>
-        <label for="newUid">Enter New UID:</label>
-        <input type="text" id="newUid" placeholder="New UID">
+        <label for="newUid">Enter New Username:</label>
+        <input type="text" id="newUid" placeholder="Fetching UID..." user_uid>
       </div>
       <div>
         <label for="newName">Enter New Name:</label>
@@ -253,6 +253,46 @@ function updateTableWithData(data) {
    });
 
 }
+// Function to fetch UID from backend
+window.fetchUid = async function() {
+    const URL = pythonURI + "/api/user"; // Replace with the correct endpoint
+
+    try {
+        const response = await fetch(URL, fetchOptions);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch UID: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.uid; // Assuming `uid` is part of the response
+    } catch (error) {
+        console.error('Error fetching UID:', error.message);
+        return null;
+    }
+};
+
+// Function to set the UID placeholder and value
+window.setUidField = async function() {
+    const uidInput = document.getElementById('newUid');
+    try {
+        const uid = await fetchUid();
+        if (uid !== null) {
+            uidInput.value = uid; // Populate the field with the current UID
+            uidInput.placeholder = `Current UID: ${uid}`; // Add a placeholder for clarity
+        } else {
+            uidInput.placeholder = "Unable to fetch UID";
+        }
+    } catch (error) {
+        console.error('Error setting UID:', error.message);
+        uidInput.placeholder = "Error fetching UID";
+    }
+};
+
+// Call setUidField on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    window.setUidField();
+});
+
 // Function to trigger the hidden file input
 window.triggerFileInput = function () {
     const fileInput = document.getElementById('profilePicture');
