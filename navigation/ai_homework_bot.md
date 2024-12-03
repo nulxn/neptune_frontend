@@ -10,7 +10,7 @@ permalink: /ai_homework_bot/
     display: flex;
     flex-direction: column;
     height: 100vh; /* Full page height */
-    background-color: #0077be; /* Ocean blue background */
+    background: linear-gradient(135deg, #4f91d8, #1c5faa); /* Full-page gradient */
     font-family: 'Arial', sans-serif;
     color: white;
 ">
@@ -31,10 +31,11 @@ permalink: /ai_homework_bot/
         flex-grow: 1; /* Take up remaining space */
         padding: 20px;
         overflow-y: auto;
-        background-color: #e0f7fa; /* Light sea blue for the chat background */
+        background-color: rgba(209, 236, 245, 0.85); /* Semi-transparent aqua */
         border-top: 2px solid #0056b3;
         border-bottom: 2px solid #0056b3;
         box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px; /* Slightly rounded corners */
     ">
     </div>
 
@@ -52,7 +53,7 @@ permalink: /ai_homework_bot/
             border-radius: 5px;
             margin-right: 10px;
             font-size: 1rem;
-            color: #0056b3; /* Text color */
+            color: #0056b3; /* Dark text */
             background-color: white; /* Input background */
         ">
         <button onclick="sendQuestion()" style="
@@ -100,7 +101,7 @@ permalink: /ai_homework_bot/
 
         // Display the user's question
         chatBox.innerHTML += `
-            <div style="margin-bottom: 20px; background: #e8f4ff; padding: 15px; border-radius: 8px;">
+            <div style="margin-bottom: 20px; background: rgba(232, 244, 255, 0.85); padding: 15px; border-radius: 8px;">
                 <strong style="color: #0056b3;">You:</strong> 
                 <span style="color: #0056b3;">${question}</span>
             </div>`;
@@ -133,7 +134,7 @@ permalink: /ai_homework_bot/
     }
 
     #chat-box::-webkit-scrollbar-thumb {
-        background: #0077be;
+        background: #0056b3; /* Match header and footer */
         border-radius: 5px;
     }
 
