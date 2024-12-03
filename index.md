@@ -31,7 +31,7 @@ menu: nav/home.html
             color: white; 
             cursor: pointer; 
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
-        onclick="window.location.href='/flocker_frontend/AstroNet'">
+        onclick="window.location.href='/flocker_frontend/astronet/'">
         View AstroNet
     </button>
 </div>
