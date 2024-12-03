@@ -1,8 +1,10 @@
 ---
-layout: base
+layout: post
 title: Choose Your Classes
-search_exclude: true
 permalink: /choose_classes/
+menu: nav/home.html
+search_exclude: true
+show_reading_time: false
 ---
 
 
