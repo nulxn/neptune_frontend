@@ -12,12 +12,7 @@ show_reading_time: false
 
 
 
----
-layout: base
-title: Ai Homework Bot
-search_exclude: true
-permalink: /ai_homework_bot/
----
+
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
     position: fixed;
