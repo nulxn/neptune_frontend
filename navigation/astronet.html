@@ -7,7 +7,17 @@ search_exclude: true
 show_reading_time: false
 ---
 
-<div id="posts"><h2>posts</h2></div>
+<div id="posts">
+  <div style="margin-bottom: 10px">
+    <h2>Posts</h2>
+    <p>
+      Welcome to AstroNet! Here you can share news and info about your classes.
+    </p>
+    <br />
+
+    <button onlick="newPostPopup()">New Post!</button>
+  </div>
+</div>
 
 <script>
   var pythonURI;
@@ -29,11 +39,13 @@ show_reading_time: false
     },
   };
 
+  let channelId;
+
   async function newPost(newData) {
     let _newPost = await fetch(`${pythonURI}/api/post`, {
       ...fetchOptions,
       method: "POST",
-      body: JSON.stringify(newData),
+      body: JSON.stringify({ ...newData, content: { likes: 0 } }),
     });
 
     return await _newPost.json();
@@ -52,6 +64,70 @@ show_reading_time: false
     });
   }
 
+  function newPostPopup() {
+    // Create the popup form
+    let popup = document.createElement("div");
+    popup.id = "newPostPopup";
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.backgroundColor = "white";
+    popup.style.padding = "20px";
+    popup.style.border = "2px solid #0096ff";
+    popup.style.borderRadius = "10px";
+    popup.style.zIndex = "1000";
+
+    // Create the form elements
+    let titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.placeholder = "Title";
+    titleInput.style.display = "block";
+    titleInput.style.marginBottom = "10px";
+
+    let commentInput = document.createElement("textarea");
+    commentInput.placeholder = "Comment";
+    commentInput.style.display = "block";
+    commentInput.style.marginBottom = "10px";
+
+    let submitButton = document.createElement("button");
+    submitButton.innerText = "Submit";
+    submitButton.style.display = "block";
+    submitButton.style.marginBottom = "10px";
+
+    let cancelButton = document.createElement("button");
+    cancelButton.innerText = "Cancel";
+    cancelButton.style.display = "block";
+
+    // Append elements to the popup
+    popup.appendChild(titleInput);
+    popup.appendChild(commentInput);
+    popup.appendChild(submitButton);
+    popup.appendChild(cancelButton);
+
+    // Append popup to the body
+    document.body.appendChild(popup);
+
+    // Add event listeners
+    submitButton.addEventListener("click", async () => {
+      let newData = {
+        title: titleInput.value,
+        comment: commentInput.value,
+        channel_id: channelId,
+      };
+      await newPost(newData);
+      document.body.removeChild(popup);
+      location.reload(); // Reload the page to show the new post
+    });
+
+    cancelButton.addEventListener("click", () => {
+      document.body.removeChild(popup);
+    });
+  }
+
+  // Add event listener to the "New Post" button
+  document.querySelector("button").addEventListener("click", newPostPopup);
+
   async function main() {
     let _groups = await fetch(`${pythonURI}/api/groups`, {
       ...fetchOptions,
@@ -62,7 +138,7 @@ show_reading_time: false
       ...fetchOptions,
     });
     let channels = await _channels.json();
-    let channelId = channels
+    channelId = channels
       .filter((c) => c.group_id === group.id)
       .filter((c) => c.name === "main")[0].id;
 
@@ -87,9 +163,30 @@ show_reading_time: false
         <p><strong>Likes:</strong> ${post.content.likes}</p>
         <button onclick="likePost(${post.id}, '${post.title}', ${channelId}, ${post.content.likes})">Like</button>
       `;
+
+      postElement.style.backgroundColor = "rgba(0, 0, 0, 0.25)";
+      postElement.style.borderRadius = "10px";
+      postElement.style.border = "2px solid white";
+      postElement.style.padding = "15px";
       postsContainer.appendChild(postElement);
     });
   }
 
   main();
 </script>
+
+<style>
+  button {
+    background-color: whitesmoke !important;
+    border: none;
+    color: #0096ff !important;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+</style>
