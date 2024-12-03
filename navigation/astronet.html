@@ -1,0 +1,95 @@
+---
+layout: post
+title: AstroNet
+permalink: /astronet/
+menu: nav/home.html
+search_exclude: true
+show_reading_time: false
+---
+
+<div id="posts"><h2>posts</h2></div>
+
+<script>
+  var pythonURI;
+  if (location.hostname === "localhost") {
+    pythonURI = "http://localhost:8887";
+  } else if (location.hostname === "127.0.0.1") {
+    pythonURI = "http://127.0.0.1:8887";
+  } else {
+    pythonURI = "https://flocker.nighthawkcodingsociety.com";
+  }
+  const fetchOptions = {
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "default", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "include", // include, same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      "X-Origin": "client", // New custom header to identify source
+    },
+  };
+
+  async function newPost(newData) {
+    let _newPost = await fetch(`${pythonURI}/api/post`, {
+      ...fetchOptions,
+      method: "POST",
+      body: JSON.stringify(newData),
+    });
+
+    return await _newPost.json();
+  }
+
+  async function likePost(id, title, channel_id, likes) {
+    await fetch(`${pythonURI}/api/post`, {
+      ...fetchOptions,
+      method: "PUT",
+      body: JSON.stringify({
+        id,
+        title: `${title}`,
+        content: { likes: `${parseInt(likes) + 1}` },
+        channel_id,
+      }),
+    });
+  }
+
+  async function main() {
+    let _groups = await fetch(`${pythonURI}/api/groups`, {
+      ...fetchOptions,
+    });
+    let groups = await _groups.json();
+    let group = groups.filter((g) => g.name === "AstroNet")[0];
+    let _channels = await fetch(`${pythonURI}/api/channels`, {
+      ...fetchOptions,
+    });
+    let channels = await _channels.json();
+    let channelId = channels
+      .filter((c) => c.group_id === group.id)
+      .filter((c) => c.name === "main")[0].id;
+
+    let _posts = await fetch(`${pythonURI}/api/posts/filter`, {
+      ...fetchOptions,
+      method: "POST",
+      body: JSON.stringify({ channel_id: channelId }),
+    });
+    let posts = await _posts.json();
+    console.log(1, posts[0]);
+
+    let postsContainer = document.getElementById("posts");
+    posts.reverse().forEach((post) => {
+      let postElement = document.createElement("div");
+      postElement.className = "post";
+      postElement.innerHTML = `
+        <h3>${post.title}</h3>
+        <p><strong>Author:</strong> ${post.user_name}</p>
+        <p>${post.comment}</p>
+
+        <br />
+        <p><strong>Likes:</strong> ${post.content.likes}</p>
+        <button onclick="likePost(${post.id}, '${post.title}', ${channelId}, ${post.content.likes})">Like</button>
+      `;
+      postsContainer.appendChild(postElement);
+    });
+  }
+
+  main();
+</script>

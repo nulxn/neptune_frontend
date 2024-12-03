@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 
+title: Schedule
 permalink: /schedule/
 menu: nav/home.html
 search_exclude: true
