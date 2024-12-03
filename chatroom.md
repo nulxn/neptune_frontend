@@ -139,7 +139,12 @@ menu: nav/home.html
   </script>
 </body>
 
-
+---
+layout: base
+title: Ai Homework Bot
+search_exclude: true
+permalink: /ai_homework_bot/
+---
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
     position: fixed;
@@ -165,7 +170,7 @@ menu: nav/home.html
     bottom: 80px;
     right: 20px;
     width: 320px;
-    background-color: #cce7ff; /* Soft ocean blue */
+    background-color: #f0faff; /* Light background */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -186,17 +191,17 @@ menu: nav/home.html
         padding: 10px; 
         height: 300px; 
         overflow-y: auto; 
-        background-color: #f0faff; /* Very light sea blue */
+        background-color: #e0f7ff; /* Very light sea blue */
         border-bottom: 2px solid #0077be;
     ">
     </div>
-    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #cce7ff;">
+    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #0077be;">
         <input type="text" id="question" placeholder="Type your question here" style="
             width: 100%; 
             padding: 10px; 
-            border: 1px solid #ddd; 
+            border: none; 
             border-radius: 5px;
-            background-color: #e8f4ff; /* Light aqua */
+            background-color: white; /* Light box background */
             color: #0056b3; /* Deep blue text */
         ">
         <button onclick="sendQuestion()" style="
@@ -257,7 +262,8 @@ menu: nav/home.html
         // Show the user's question in the chat
         chatBox.innerHTML += `
             <div style="margin-bottom: 10px; background: #e8f4ff; padding: 10px; border-radius: 8px;">
-                <strong style="color: #0056b3;">You:</strong> ${question}
+                <strong style="color: #0056b3;">You:</strong> 
+                <span style="color: #0056b3;">${question}</span>
             </div>`;
 
         // Send the question to the backend
