@@ -149,7 +149,7 @@ input::placeholder {
     <form>
       <div>
         <label for="newUid">Enter New Username:</label>
-        <input type="text" id="newUid" placeholder="Fetching UID..." user_uid>
+        <input type="text" id="newUid" placeholder="Fetching UID...">
       </div>
       <div>
         <label for="newName">Enter New Name:</label>
@@ -271,22 +271,22 @@ window.fetchUid = async function() {
     }
 };
 
-// Function to set the UID placeholder and value
-window.setUidField = async function() {
-    const uidInput = document.getElementById('newUid');
-    try {
-        const uid = await fetchUid();
-        if (uid !== null) {
-            uidInput.value = uid; // Populate the field with the current UID
-            uidInput.placeholder = `Current UID: ${uid}`; // Add a placeholder for clarity
-        } else {
-            uidInput.placeholder = "Unable to fetch UID";
-        }
-    } catch (error) {
-        console.error('Error setting UID:', error.message);
-        uidInput.placeholder = "Error fetching UID";
-    }
-};
+// // Function to set the UID placeholder and value
+// window.setUidField = async function() {
+//     const uidInput = document.getElementById('newUid');
+//     try {
+//         const uid = await fetchUid();
+//         if (uid !== null) {
+//             uidInput.value = uid; // Populate the field with the current UID
+//             uidInput.placeholder = `Current UID: ${uid}`; // Add a placeholder for clarity
+//         } else {
+//             uidInput.placeholder = "Unable to fetch UID";
+//         }
+//     } catch (error) {
+//         console.error('Error setting UID:', error.message);
+//         uidInput.placeholder = "Error fetching UID";
+//     }
+// };
 
 // Call setUidField on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -405,6 +405,7 @@ window.updateNameField = function(newName) {
   const nameInput = document.getElementById('newName');
   nameInput.value = newName;
   nameInput.placeholder = newName;
+  window.reload()
 }
 
 // Function to change UID
@@ -420,7 +421,7 @@ window.changeUid = async function(uid) {
                alert("You updated your Github ID, so you will automatically be logged out. Be sure to remember your new github id to log in!");
                console.log('UID updated successfully!');
                window.updateUidField(uid);
-               window.location.href = '/portfolio_2025/login'
+               window.location.href = '/neptune_frontend/login'
            }
        };
 
@@ -492,6 +493,7 @@ document.getElementById('newUid').addEventListener('change', function() {
 document.getElementById('newName').addEventListener('change', function() {
     const name = this.value;
     window.changeName(name);
+    window.reload()
 
 });
 
