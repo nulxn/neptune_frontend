@@ -7,7 +7,7 @@
 </div>
 
 <!-- Main Content Container -->
-<div id="progressContainer">
+<div id="contentContainer">
     <!-- Left Section: Period Buttons (Dropdowns) -->
     <div class="dropdown-section">
         <div class="mini-dropdown-container">
@@ -20,26 +20,7 @@
     </div>
 
     <!-- Right Section: Timer -->
-    <div class="timer-section">
-        <div class="timer">
-            <svg width="500" height="500">
-                <!-- Outer Circle (background circle) with gradient stroke -->
-                <circle cx="250" cy="250" r="220" stroke="lightgray" stroke-width="30" fill="none"></circle>
-
-                <!-- Progress Circle (will change based on time) -->
-                <circle id="progressCircle" cx="250" cy="250" r="220" stroke="url(#gradient)" stroke-width="30" fill="none" stroke-dasharray="1382" stroke-dashoffset="1382"></circle>
-
-                <!-- Gradient Definition -->
-                <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color: blue; stop-opacity: 1" />
-                        <stop offset="100%" style="stop-color: black; stop-opacity: 1" />
-                    </linearGradient>
-                </defs>
-            </svg>
-            <div id="timeText">Hours Left of School</div>
-        </div>
-    </div>
+    <div id="progressContainer" class="timer-section"></div>
 </div>
 
 <style>
@@ -68,13 +49,14 @@
         align-items: center;
     }
 
-    /* Main Content Styling */
-    #progressContainer {
+    /* Main Content Layout */
+    #contentContainer {
         display: flex;
         justify-content: space-between;
-        width: 80%;
         align-items: center;
-        color: white;
+        width: 80%;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     /* Timer Section */
@@ -103,7 +85,7 @@
         width: 25%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .mini-dropdown-container {
@@ -153,28 +135,56 @@
 
     /* Glow Effect for Progress Circle */
     #progressCircle {
-        filter: drop-shadow(0 0 15px purple) drop-shadow(0 0 30px purple);  /* Glow effect */
+        filter: drop-shadow(0 0 15px purple) drop-shadow(0 0 30px purple); /* Glow effect */
         transition: stroke-dashoffset 1s ease-in-out; /* Smooth animation */
     }
 </style>
 
 <script>
     const schoolStart = new Date();
-    schoolStart.setHours(8, 35, 0, 0); // Adjust start time to 8:35 AM
+    schoolStart.setHours(8, 35, 0, 0);
 
     const schoolEnd = new Date();
-    schoolEnd.setHours(15, 45, 0, 0); // Adjust end time to 3:45 PM
+    schoolEnd.setHours(15, 45, 0, 0);
 
-    const radius = 220;  // Adjusted for larger circle
+    const radius = 150;
     const circumference = 2 * Math.PI * radius;
 
     const svgNamespace = "http://www.w3.org/2000/svg";
-    const svg = document.querySelector("svg");
-    const progressCircle = svg.querySelector("#progressCircle");
+    const svg = document.createElementNS(svgNamespace, "svg");
+    svg.setAttribute("width", radius * 2 + 40);
+    svg.setAttribute("height", radius * 2 + 40);
+
+    const circle = document.createElementNS(svgNamespace, "circle");
+    circle.setAttribute("cx", radius + 20);
+    circle.setAttribute("cy", radius + 20);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("stroke", "lightgray");
+    circle.setAttribute("stroke-width", "15");
+    circle.setAttribute("fill", "none");
+
+    const progressCircle = document.createElementNS(svgNamespace, "circle");
+    progressCircle.setAttribute("cx", radius + 20);
+    progressCircle.setAttribute("cy", radius + 20);
+    progressCircle.setAttribute("r", radius);
+    progressCircle.setAttribute("stroke", "#33c3f0");
+    progressCircle.setAttribute("stroke-width", "15");
+    progressCircle.setAttribute("fill", "none");
+    progressCircle.setAttribute("stroke-dasharray", circumference);
+    progressCircle.setAttribute("stroke-dashoffset", circumference);
+    progressCircle.classList.add("glow");
+
+    svg.appendChild(circle);
+    svg.appendChild(progressCircle);
+    document.getElementById('progressContainer').appendChild(svg);
+
+    const text = document.createElement("div");
+    text.id = "timeText";
+    text.textContent = "Hours Left of School";
+    document.getElementById('progressContainer').appendChild(text);
 
     function updateProgress() {
         const now = new Date();
-
         const totalSchoolTime = schoolEnd - schoolStart;
         let elapsedSchoolTime = 0;
 
@@ -191,24 +201,14 @@
         if (now < schoolStart) {
             message = `School starts in ${Math.floor((schoolStart - now) / 60000)} minutes.`;
         } else if (now < schoolEnd) {
-            const remainingTime = schoolEnd - now;
-            const hours = Math.floor(remainingTime / 3600000);
-            const minutes = Math.floor((remainingTime % 3600000) / 60000);
-            const seconds = Math.floor((remainingTime % 60000) / 1000);
-
-            message = `Time left: ${hours}h ${minutes}m ${seconds}s`;
+            message = `Hours left of school: ${Math.ceil((schoolEnd - now) / 60000 / 60)} hour(s).`;
         } else {
-            // Fill the circle when school is over
-            progressCircle.setAttribute("stroke-dashoffset", "0");
-            message = 'School is over!';
+            message = 'School is over for the day.';
         }
 
         document.getElementById('timeText').textContent = message;
     }
 
-    // Initialize the progress animation when the page loads
     updateProgress();
-
-    // Update every second to keep it dynamic
-    setInterval(updateProgress, 1000);
+    setInterval(updateProgress, 60000);
 </script>

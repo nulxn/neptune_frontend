@@ -12,4 +12,4 @@ permalink: /schedule/
 
 
 
-{% include testschedule.html %}
+{% include schedule.html %}
