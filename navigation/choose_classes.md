@@ -93,7 +93,7 @@ show_reading_time: false
 </div>
 
 
-<!-- Ai Homework Bot Integration Code-->
+<!-- Ai Homework Bot Integration Code--?>
 
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
@@ -120,7 +120,7 @@ show_reading_time: false
     bottom: 80px;
     right: 20px;
     width: 320px;
-    background-color: #e0f7fa; /* Light sea blue */
+    background-color: #cce7ff; /* Soft ocean blue */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -141,16 +141,17 @@ show_reading_time: false
         padding: 10px; 
         height: 300px; 
         overflow-y: auto; 
-        background-color: #03ecfc; /* tealish color */
+        background-color: #f0faff; /* Very light sea blue */
+        border-bottom: 2px solid #0077be;
     ">
     </div>
-    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #e0f7fa;">
+    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #cce7ff;">
         <input type="text" id="question" placeholder="Type your question here" style="
             width: 100%; 
             padding: 10px; 
             border: 1px solid #ddd; 
             border-radius: 5px;
-            background-color: #f0ffff; /* Light aqua */
+            background-color: #e8f4ff; /* Light aqua */
             color: #0056b3; /* Deep blue text */
         ">
         <button onclick="sendQuestion()" style="
@@ -180,13 +181,13 @@ show_reading_time: false
     }
 
     const fetchOptions = {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'include', // include, same-origin, omit
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'X-Origin': 'client' // New custom header to identify source
+            'X-Origin': 'client'
         },
     };
 
@@ -209,7 +210,10 @@ show_reading_time: false
         const chatBox = document.getElementById("chat-box");
 
         // Show the user's question in the chat
-        chatBox.innerHTML += `<div style="margin-bottom: 10px;"><strong>You:</strong> ${question}</div>`;
+        chatBox.innerHTML += `
+            <div style="margin-bottom: 10px; background: #e8f4ff; padding: 10px; border-radius: 8px;">
+                <strong style="color: #0056b3;">You:</strong> ${question}
+            </div>`;
 
         // Send the question to the backend
         const response = await fetch(`${pythonURI}/api/ai/help`, {
@@ -222,18 +226,20 @@ show_reading_time: false
         const data = await response.json();
         const aiResponse = data.response || "Error: Unable to fetch response.";
 
-        chatBox.innerHTML += `<div style="margin-bottom: 10px; color: #0077be;"><strong>Poseidon:</strong> ${aiResponse}</div>`;
+        chatBox.innerHTML += `
+            <div style="margin-bottom: 10px; background: #0077be; padding: 10px; border-radius: 8px; color: white;">
+                <strong>Poseidon:</strong> ${aiResponse}
+            </div>`;
         document.getElementById("question").value = ""; // Clear input
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
     }
 </script>
 
-<!-- Optional CSS (Inline or Move to a Global CSS File) -->
+<!-- Optional CSS -->
 <style>
     /* Button Hover Effect */
     #ai-bot-button:hover {
         background-color: #003f6b;
-        /* Even darker blue for hover */
     }
 
     /* Chatbox Scrollbar */
@@ -243,7 +249,6 @@ show_reading_time: false
 
     #chat-box::-webkit-scrollbar-thumb {
         background: #0077be;
-        /* Ocean blue */
         border-radius: 5px;
     }
 </style>
