@@ -76,7 +76,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        text-shadow: 0 0 5px purple, 0 0 10px purple;
+        text-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff, 0 0 30px #1e90ff;
         padding: 10px;
     }
 
@@ -135,8 +135,13 @@
 
     /* Glow Effect for Progress Circle */
     #progressCircle {
-        filter: drop-shadow(0 0 15px purple) drop-shadow(0 0 30px purple); /* Glow effect */
+        stroke: #1e90ff; /* Slightly darker blue */
+        filter: drop-shadow(0 0 10px #1e90ff) drop-shadow(0 0 20px #1e90ff);
         transition: stroke-dashoffset 1s ease-in-out; /* Smooth animation */
+    }
+
+    circle {
+        stroke-linecap: round;
     }
 </style>
 
@@ -167,7 +172,7 @@
     progressCircle.setAttribute("cx", radius + 20);
     progressCircle.setAttribute("cy", radius + 20);
     progressCircle.setAttribute("r", radius);
-    progressCircle.setAttribute("stroke", "#33c3f0");
+    progressCircle.setAttribute("stroke", "#1e90ff");
     progressCircle.setAttribute("stroke-width", "15");
     progressCircle.setAttribute("fill", "none");
     progressCircle.setAttribute("stroke-dasharray", circumference);
