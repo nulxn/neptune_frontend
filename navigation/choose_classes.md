@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Choose Your Classes
+title: 
 permalink: /choose_classes/
 menu: nav/home.html
 search_exclude: true
