@@ -152,12 +152,12 @@ input::placeholder {
         <input type="text" id="newUid" placeholder="Fetching UID...">
       </div>
       <div>
-        <label for="newName">Enter New Name:</label>
+        <label for="newName">Enter New Display Name:</label>
         <input type="text" id="newName" placeholder="New Name">
       </div>
       <div>
-        <label for="newPassword">Enter New Password:</label>
-        <input type="text" id="newPassword" placeholder="New Password">
+        <label for="newPassword">Change/Forgot Password:</label>
+        <input type="button" id="newPassword">
       </div>
     </form>
   </div>
