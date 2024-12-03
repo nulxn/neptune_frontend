@@ -1,76 +1,70 @@
 ---
 layout: base
-title: Ai Homework Bot
+title: Poseidon Homework Bot
 search_exclude: true
 permalink: /ai_homework_bot/
 ---
-<!-- Poseidon Homework Bot Floating Button -->
-<div id="ai-bot-button" style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #0056b3; /* Deeper ocean blue */
-    color: white;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-size: 20px;
-    text-align: center;
-">
-    🔱 <!-- Trident Icon -->
-</div>
 
-<!-- Poseidon Homework Bot Popup Modal -->
-<div id="ai-bot-popup" style="
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 320px;
-    background-color: #e0f7fa; /* Light sea blue */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow: hidden;
+<!-- Full-Page Poseidon Homework Bot -->
+<div id="poseidon-bot-container" style="
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full page height */
+    background-color: #0077be; /* Ocean blue background */
     font-family: 'Arial', sans-serif;
+    color: white;
 ">
+    <!-- Header -->
     <div style="
-        background-color: #0077be; /* Ocean blue */
-        color: white;
-        padding: 10px;
-        font-size: 18px;
+        background-color: #0056b3; /* Deeper blue for the header */
+        padding: 20px;
         text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     ">
         Poseidon Homework Bot
-        <span id="close-bot" style="float: right; cursor: pointer;">&times;</span>
     </div>
-    <div id="chat-box" style=" 
-        padding: 10px; 
-        height: 300px; 
-        overflow-y: auto; 
-        background-color: #03ecfc; /* tealish color */
+
+    <!-- Chat Section -->
+    <div id="chat-box" style="
+        flex-grow: 1; /* Take up remaining space */
+        padding: 20px;
+        overflow-y: auto;
+        background-color: #e0f7fa; /* Light sea blue for the chat background */
+        border-top: 2px solid #0056b3;
+        border-bottom: 2px solid #0056b3;
+        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
     ">
     </div>
-    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #e0f7fa;">
+
+    <!-- Input Section -->
+    <div style="
+        display: flex;
+        padding: 20px;
+        background-color: #0056b3; /* Same blue as the header */
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+    ">
         <input type="text" id="question" placeholder="Type your question here" style="
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #ddd; 
+            flex-grow: 1; /* Take up as much space as possible */
+            padding: 15px;
+            border: none;
             border-radius: 5px;
-            background-color: #f0ffff; /* Light aqua */
-            color: #0056b3; /* Deep blue text */
+            margin-right: 10px;
+            font-size: 1rem;
+            color: #0056b3; /* Text color */
+            background-color: white; /* Input background */
         ">
         <button onclick="sendQuestion()" style="
-            width: 100%; 
-            padding: 10px; 
-            background-color: #0056b3; /* Darker blue for the button */
-            color: white; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer;
+            padding: 15px 20px;
+            background-color: white; /* Contrasting button background */
+            color: #0056b3; /* Dark blue text */
+            font-size: 1rem;
             font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         ">
             Ask Poseidon
         </button>
@@ -89,36 +83,27 @@ permalink: /ai_homework_bot/
     }
 
     const fetchOptions = {
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'include', // include, same-origin, omit
+        method: 'GET',
+        mode: 'cors',
+        cache: 'default',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'X-Origin': 'client' // New custom header to identify source
+            'X-Origin': 'client'
         },
     };
-
-    // Toggle Popup
-    const botButton = document.getElementById('ai-bot-button');
-    const botPopup = document.getElementById('ai-bot-popup');
-    const closeBot = document.getElementById('close-bot');
-
-    botButton.addEventListener('click', () => {
-        botPopup.style.display = 'block';
-    });
-
-    closeBot.addEventListener('click', () => {
-        botPopup.style.display = 'none';
-    });
 
     // Chatbot Logic
     async function sendQuestion() {
         const question = document.getElementById("question").value;
         const chatBox = document.getElementById("chat-box");
 
-        // Show the user's question in the chat
-        chatBox.innerHTML += `<div style="margin-bottom: 10px;"><strong>You:</strong> ${question}</div>`;
+        // Display the user's question
+        chatBox.innerHTML += `
+            <div style="margin-bottom: 20px; background: #e8f4ff; padding: 15px; border-radius: 8px;">
+                <strong style="color: #0056b3;">You:</strong> 
+                <span style="color: #0056b3;">${question}</span>
+            </div>`;
 
         // Send the question to the backend
         const response = await fetch(`${pythonURI}/api/ai/help`, {
@@ -127,32 +112,34 @@ permalink: /ai_homework_bot/
             body: JSON.stringify({ question })
         });
 
-        // Get and display the AI's response
+        // Display the AI's response
         const data = await response.json();
         const aiResponse = data.response || "Error: Unable to fetch response.";
 
-        chatBox.innerHTML += `<div style="margin-bottom: 10px; color: #0077be;"><strong>Poseidon:</strong> ${aiResponse}</div>`;
+        chatBox.innerHTML += `
+            <div style="margin-bottom: 20px; background: #0077be; padding: 15px; border-radius: 8px; color: white;">
+                <strong>Poseidon:</strong> ${aiResponse}
+            </div>`;
         document.getElementById("question").value = ""; // Clear input
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
     }
 </script>
 
-<!-- Optional CSS (Inline or Move to a Global CSS File) -->
+<!-- Optional CSS -->
 <style>
-    /* Button Hover Effect */
-    #ai-bot-button:hover {
-        background-color: #003f6b;
-        /* Even darker blue for hover */
-    }
-
-    /* Chatbox Scrollbar */
+    /* Chatbox Scrollbar Styling */
     #chat-box::-webkit-scrollbar {
-        width: 5px;
+        width: 8px;
     }
 
     #chat-box::-webkit-scrollbar-thumb {
         background: #0077be;
-        /* Ocean blue */
         border-radius: 5px;
+    }
+
+    /* Button Hover Effect */
+    button:hover {
+        background-color: #0077be;
+        color: white;
     }
 </style>
