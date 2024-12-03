@@ -92,39 +92,25 @@ input::placeholder {
   font-size: 0.9rem;
   color: red; /* Error messages in red */
 }
- /* Modal Styling */
-  .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  .modal-content {
-    background: blue;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-  }
-  video {
-    width: 100%;
-    max-width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
-  }
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    margin-top: 10px;
-  }
+ .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
   img {
     width: 100%;
     max-width: 100%;
@@ -155,13 +141,19 @@ input::placeholder {
         <label for="newName">Enter New Display Name:</label>
         <input type="text" id="newName" placeholder="New Name">
       </div>
-      <div>
-        <label for="newPassword">Change/Forgot Password:</label>
-        <input type="button" id="newPassword">
+
+  <div>
+    <button id="changePasswordButton" onclick="openPasswordModal()">Change Password</button>
+    <div id="passwordModal" class="modal">
+      <div class="modal-content">
+        <h3>Change Password</h3>
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" placeholder="Enter new password">
+        <p id="password-message" style="color: red;"></p>
+        <button onclick="submitPasswordChange()">Submit</button>
+        <button onclick="closePasswordModal()">Cancel</button>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
 
 <script type="module">
 // Import fetchOptions from config.js
@@ -271,33 +263,40 @@ window.fetchUid = async function() {
     }
 };
 
-// // Function to set the UID placeholder and value
-// window.setUidField = async function() {
-//     const uidInput = document.getElementById('newUid');
-//     try {
-//         const uid = await fetchUid();
-//         if (uid !== null) {
-//             uidInput.value = uid; // Populate the field with the current UID
-//             uidInput.placeholder = `Current UID: ${uid}`; // Add a placeholder for clarity
-//         } else {
-//             uidInput.placeholder = "Unable to fetch UID";
-//         }
-//     } catch (error) {
-//         console.error('Error setting UID:', error.message);
-//         uidInput.placeholder = "Error fetching UID";
-//     }
-// };
+ function openPasswordModal() {
+      const modal = document.getElementById('passwordModal');
+      if (modal) {
+        modal.style.display = 'block';
+      } else {
+        console.error('Password modal element not found.');
+      }
+    }
 
-// Call setUidField on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    window.setUidField();
-});
+    function closePasswordModal() {
+      const modal = document.getElementById('passwordModal');
+      if (modal) {
+        modal.style.display = 'none';
+      } else {
+        console.error('Password modal element not found.');
+      }
+    }
 
-// Function to trigger the hidden file input
-window.triggerFileInput = function () {
-    const fileInput = document.getElementById('profilePicture');
-    fileInput.click(); // Programmatically click the file input
-};
+async function submitPasswordChange() {
+  const newPassword = document.getElementById('newPassword').value;
+  
+  if (!newPassword) {
+    document.getElementById('password-message').textContent = 'Password cannot be empty.';
+    return;
+  }
+
+  try {
+    await window.changePassword(newPassword); // Assuming `changePassword` is already defined in your script
+    closePasswordModal();
+  } catch (error) {
+    console.error('Error changing password:', error.message);
+    document.getElementById('password-message').textContent = 'Error changing password: ' + error.message;
+  }
+}
 
 // Function to fetch user profile data
 async function fetchUserProfile() {

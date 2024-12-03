@@ -25,13 +25,11 @@
   <style>
     /* Full-Page Background with Strong Glowing Effect */
     body {
-      background: linear-gradient(
-        135deg,
-        #1254f0,
-        hsla(277, 73%, 74%, 0.632),
-        #25c3f8,
-        #5a67d8
-      );
+      background: linear-gradient(135deg,
+          #1254f0,
+          hsla(277, 73%, 74%, 0.632),
+          #25c3f8,
+          #5a67d8);
       background-size: 400% 400%;
       animation: glowingBackground 20s ease infinite;
       font-family: Arial, sans-serif;
@@ -43,9 +41,11 @@
       0% {
         background-position: 0% 50%;
       }
+
       50% {
         background-position: 100% 50%;
       }
+
       100% {
         background-position: 0% 50%;
       }
@@ -53,6 +53,21 @@
 
     .hidden-pg {
       display: none !important;
+    }
+
+    table {
+      border-collapse: collapse;
+      /* Ensures there are no gaps between table cells */
+      border: none;
+      /* Removes table borders */
+      background-color: transparent;
+    }
+
+    table th,
+    table td {
+      background-color: transparent;
+      border: none;
+      /* Removes borders around individual cells */
     }
   </style>
 </body>

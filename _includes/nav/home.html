@@ -1,3 +1,38 @@
+<style>
+    /* Optional: Style the entire table */
+    table {
+        border-spacing: 0; /* Remove spacing between table cells */
+        width: 100%; /* Stretch the table to fit full width if needed */
+    }
+
+    /* Optional: Set style for the rest of the page */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    #loginArea {
+        text-align: right; /* Align the login/logout link to the right */
+        padding: 10px; /* Add padding for better spacing */
+        font-family: Arial, sans-serif; /* Ensure consistent font */
+    }
+
+    #loginArea a {
+        text-decoration: none; /* Remove underline from links */
+        color: #333; /* Default text color */
+        font-weight: bold; /* Make text bold */
+        padding: 8px 15px; /* Add padding around the link */
+        background-color: #f8f9fa; /* Light gray background */
+        border: 1px solid #ddd; /* Add a subtle border */
+        border-radius: 5px; /* Rounded edges */
+        transition: all 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    #loginArea a:hover {
+        background-color: #007BFF; /* Change background color on hover */
+        color: #fff; /* Change text color on hover */
+    }
+</style>
+
 <table>
     <tr>
         <td id="loginArea"><a href="{{site.baseurl}}/login">Login</a></td>
@@ -19,12 +54,12 @@
                         <td id="navbar">
                 
                      </td>
-                        <td id="Home"><a href="{{site.baseurl}}/">Home</a></td>
-                        <td id="Chat"><a href="{{site.baseurl}}/posts">Chat</a></td>
-                        <td id="Classes"><a href="{{site.baseurl}}/choose_classes/">Classes</a></td>
-                        <td id="Profile"><a href="{{site.baseurl}}/profile">${data.name}</a></td>
-                        <td id="logout"><a href="{{site.baseurl}}/logout">Logout</a></td>
-                        <td id="HomeworkHelp"><a href="{{site.baseurl}}/ai_homework_bot/">Homework Help</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/">Home</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/posts">Chat</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/choose_classes/">Classes</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/profile">${data.name}</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/logout">Logout</a></td>
+                        <td id="navbar"><a href="{{site.baseurl}}/ai_homework_bot/">Homework Help</a></td>
                     </tr>
                 </table>
                 `;
