@@ -92,25 +92,44 @@ input::placeholder {
   font-size: 0.9rem;
   color: red; /* Error messages in red */
 }
- .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 40%;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+ /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: blue;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
   img {
     width: 100%;
     max-width: 100%;
@@ -141,19 +160,21 @@ input::placeholder {
         <label for="newName">Enter New Display Name:</label>
         <input type="text" id="newName" placeholder="New Name">
       </div>
-
-  <div>
-    <button id="changePasswordButton" onclick="openPasswordModal()">Change Password</button>
+<button id="changePasswordButton" onclick="openPasswordModal(event)">Change Password</button>
     <div id="passwordModal" class="modal">
-      <div class="modal-content">
-        <h3>Change Password</h3>
-        <label for="newPassword">New Password:</label>
-        <input type="password" id="newPassword" placeholder="Enter new password">
-        <p id="password-message" style="color: red;"></p>
-        <button onclick="submitPasswordChange()">Submit</button>
-        <button onclick="closePasswordModal()">Cancel</button>
-      </div>
+        <div class="modal-content">
+            <span class="close" onclick="closePasswordModal(event)">&times;</span>
+            <h2>Change Password</h2>
+            <form id="passwordForm">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" placeholder="Enter current password">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter new password">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
+
 
 <script type="module">
 // Import fetchOptions from config.js
@@ -263,40 +284,58 @@ window.fetchUid = async function() {
     }
 };
 
- function openPasswordModal() {
-      const modal = document.getElementById('passwordModal');
-      if (modal) {
-        modal.style.display = 'block';
-      } else {
-        console.error('Password modal element not found.');
-      }
-    }
-
-    function closePasswordModal() {
-      const modal = document.getElementById('passwordModal');
-      if (modal) {
-        modal.style.display = 'none';
-      } else {
-        console.error('Password modal element not found.');
-      }
-    }
-
-async function submitPasswordChange() {
-  const newPassword = document.getElementById('newPassword').value;
-  
-  if (!newPassword) {
-    document.getElementById('password-message').textContent = 'Password cannot be empty.';
-    return;
-  }
-
-  try {
-    await window.changePassword(newPassword); // Assuming `changePassword` is already defined in your script
-    closePasswordModal();
-  } catch (error) {
-    console.error('Error changing password:', error.message);
-    document.getElementById('password-message').textContent = 'Error changing password: ' + error.message;
-  }
+// Function to open the modal
+function openPasswordModal(event) {
+    if (event) event.preventDefault();
+    document.getElementById('passwordModal').style.display = 'flex';
 }
+
+// Function to close the modal
+function closePasswordModal(event) {
+    if (event) event.preventDefault();
+    document.getElementById('passwordModal').style.display = 'none';
+}
+// Define modal functions
+        window.openPasswordModal = function (event) {
+            if (event) event.preventDefault();
+            document.getElementById('passwordModal').style.display = 'flex';
+            console.log('Modal opened');
+        };
+
+        window.closePasswordModal = function (event) {
+            if (event) event.preventDefault();
+            document.getElementById('passwordModal').style.display = 'none';
+            console.log('Modal closed');
+        };
+
+
+//MODIFY TO HAVE USERS AUTHENTICATE BEFORE CHANGING PASSWORD
+// Function to handle the password change
+async function submitPasswordChange(event) {
+    event.preventDefault(); // Prevent the form from reloading the page
+
+    const newPassword = document.getElementById('newPassword').value;
+    const currentPassword = document.getElementById('currentPassword').value;
+
+    if (!newPassword || !currentPassword) {
+        document.getElementById('password-message').textContent = 'Please fill in all fields.';
+        return;
+    }
+
+    try {
+        // Call the change password function
+        await window.changePassword(newPassword);
+
+        // Close the modal and show success
+        closePasswordModal();
+    } catch (error) {
+        console.error('Error updating password:', error.message);
+        document.getElementById('password-message').textContent = 'Error updating password: ' + error.message;
+    }
+}
+
+
+
 
 // Function to fetch user profile data
 async function fetchUserProfile() {
@@ -443,7 +482,7 @@ window.changePassword = async function(password) {
            message: 'password-message', // Adjust the message area as needed
            callback: () => {
                console.log('Password updated successfully!');
-               window.location.href = '/portfolio_2025/login'
+               window.location.href = '/flocker_frontend/login'
 
            }
        };
