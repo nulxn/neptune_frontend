@@ -113,7 +113,7 @@ export async function logoutUser() {
         try {
                 const response = await fetch(URL, options);
                 if (response.ok) {
-                    window.location.href = "/{{site.baseurl}}/login"; // Redirect to login page
+                    window.location.href = "/flocker_frontend/login"; // Redirect to login page
                 } else {
                     const errorMessage = await response.text();
                     console.error('Logout failed:', errorMessage);
