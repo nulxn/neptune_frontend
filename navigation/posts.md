@@ -5,133 +5,141 @@ search_exclude: true
 permalink: /posts/
 ---
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galaxy Chatroom</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Chatroom</title>
 
-    #galaxy {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .chatroom {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100vh;
-      padding: 20px;
-    }
+  /* Chatroom Container */
+  .chatroom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+  }
 
-    .chat-container {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
+  /* Chat Messages */
+  .chat-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+  }
 
-    .message {
-      max-width: 60%;
-      margin: 10px 0;
-      padding: 10px 15px;
-      border-radius: 20px;
-    }
+  .message {
+    max-width: 70%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    word-wrap: break-word;
+  }
 
-    .message.left {
-      background-color: rgba(255, 255, 255, 0.1);
-      margin-left: 0;
-    }
+  .message.left {
+    background-color: #444;
+    color: white;
+    align-self: flex-start;
+  }
 
-    .message.right {
-      background-color: rgba(0, 150, 255, 0.7);
-      margin-left: auto;
-    }
+  .message.right {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+  }
 
-    .input-container {
-      display: flex;
-      align-items: center;
-    }
+  /* Input Section */
+  .input-container {
+    display: flex;
+    padding: 10px;
+    background: #333;
+    border-top: 1px solid #444;
+  }
 
-    input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 20px;
-      margin-right: 10px;
-    }
+  input {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    outline: none;
+    color: black;
+  }
 
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div class="chatroom">
-    <div class="chat-container">
-      <div class="message left">Hello!</div>
-      <div class="message right">Hi, how are you?</div>
-      <div class="message left">I'm good, thanks!</div>
-    </div>
-    <div class="input-container">
-      <input type="text" placeholder="Type your message here" />
-      <button>&#10148;</button>
-    </div>
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="chatroom">
+  <!-- Chat Messages -->
+  <div class="chat-container" id="chat-container">
+    <div class="message left">Welcome to the chatroom!</div>
   </div>
-  <canvas id="galaxy"></canvas>
-  <script>
-    const canvas = document.getElementById("galaxy");
-    const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  <!-- Input Section -->
+  <div class="input-container">
+    <input type="text" id="message-input" placeholder="Type your message here...">
+    <button id="send-button">Send</button>
+  </div>
+</div>
 
-    const stars = Array(200).fill().map(() => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2,
-      speed: Math.random() * 0.5 + 0.2,
-    }));
+<script>
+  const chatContainer = document.getElementById('chat-container');
+  const messageInput = document.getElementById('message-input');
+  const sendButton = document.getElementById('send-button');
 
-    function drawGalaxy() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = "white";
-        ctx.fill();
-      });
+  // Function to Add Messages
+  function addMessage(text, side) {
+    const message = document.createElement('div');
+    message.classList.add('message', side);
+    message.textContent = text;
+    chatContainer.appendChild(message);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
+  }
+
+  // Handle Sending Messages
+  sendButton.addEventListener('click', () => {
+    const messageText = messageInput.value.trim();
+    if (messageText !== '') {
+      addMessage(messageText, 'right'); // User's message
+      messageInput.value = '';
+
+      // Simulated Response
+      setTimeout(() => {
+        addMessage('This is an auto-reply!', 'left'); // Auto-reply message
+      }, 1000);
     }
+  });
 
-    function animateGalaxy() {
-      stars.forEach(star => {
-        star.y += star.speed;
-        if (star.y > canvas.height) {
-          star.y = 0;
-          star.x = Math.random() * canvas.width;
-        }
-      });
-      drawGalaxy();
-      requestAnimationFrame(animateGalaxy);
+  // Allow Enter Key to Send Messages
+  messageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      sendButton.click();
     }
+<<<<<<< HEAD
 
     animateGalaxy();
   </script>
@@ -303,3 +311,8 @@ permalink: /ai_homework_bot/
         border-radius: 5px;
     }
 </style>
+=======
+  });
+</script>
+{% endraw %}
+>>>>>>> 8351117 (o)
