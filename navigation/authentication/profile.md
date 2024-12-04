@@ -130,6 +130,18 @@ input::placeholder {
             text-decoration: none;
             cursor: pointer;
         }
+ video {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
   img {
     width: 100%;
     max-width: 100%;
@@ -141,13 +153,11 @@ input::placeholder {
 
 <div class="profile-container">
   <!-- Profile Picture Section -->
-<div class="image-section">
-    <div class="image-container" id="profileImageBox" onclick="triggerFileInput()">
-        <img src="/path/to/placeholder-image.png" alt="Profile Picture" id="previewImage">
-    </div>
-    <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()" hidden>
-    <p id="profile-message" style="color: red;"></p>
+<div class="image-container" id="profileImageBox" onclick="triggerFileInput()">
+    <img src="/path/to/placeholder-image.png" alt="Profile Picture" id="previewImage">
 </div>
+<input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()" hidden>
+
 
   <!-- Form Section -->
   <div class="form-section">
@@ -266,6 +276,15 @@ function updateTableWithData(data) {
    });
 
 }
+
+window.triggerFileInput = function () {
+    const fileInput = document.getElementById('profilePicture');
+    if (fileInput) {
+        fileInput.click(); // Trigger the file input click event
+    } else {
+        console.error('File input element not found.');
+    }
+};
 // Function to fetch UID from backend
 window.fetchUid = async function() {
     const URL = pythonURI + "/api/user"; // Replace with the correct endpoint
@@ -332,7 +351,7 @@ async function submitPasswordChange(event) {
         console.error('Error updating password:', error.message);
         document.getElementById('password-message').textContent = 'Error updating password: ' + error.message;
     }
-}
+};
 
 
 
