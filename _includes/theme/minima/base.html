@@ -2,15 +2,18 @@
 
 <body>
   <script>
+    let _authed;
     document.addEventListener("DOMContentLoaded", function () {
-      let _paths = window.location.pathname.split("/").filter(Boolean);
-      if (_paths.length > 1) {
-        // not on the main page
-        console.log("not on the main page");
-        /*
-                document
-          .getElementsByClassName("page-content")[0]
-          .classList.remove("hidden-pg");*/
+      let cookies = document.cookie.split("; ");
+      cookies.forEach(cookie => {
+        const [key, value] = cookie.split('=');
+        if (key === "jwt_python_flask") {
+          _authed = true;
+        }
+      });
+
+      if (!_authed && !window.location.href.endsWith("login")) {
+        window.location.href = '/neptune_frontend/login';
       }
     });
   </script>

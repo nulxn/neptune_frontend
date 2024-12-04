@@ -277,3 +277,35 @@ show_reading_time: false
         display: none;
     }
 </style>
+
+<script>
+
+<div id="bubble-container"></div>
+
+function createBubble() {
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    
+    // Randomize bubble properties
+    const size = Math.random() * 40 + 10; // Size between 10px and 50px
+    const position = Math.random() * 100; // Horizontal position as a percentage
+    const duration = Math.random() * 3 + 2; // Duration between 2s and 5s
+    
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${position}vw`; // Random horizontal position
+    bubble.style.animationDuration = `${duration}s`; // Randomize animation duration
+
+    // Append the bubble to the bubble container
+    const bubbleContainer = document.getElementById('bubble-container');
+    bubbleContainer.appendChild(bubble);
+
+    // Remove the bubble after 5 seconds
+    setTimeout(() => {
+        bubble.remove();
+    }, 5000);
+}
+
+// Generate bubbles at intervals
+setInterval(createBubble, 500); // Create a bubble every 500ms
+</script>
