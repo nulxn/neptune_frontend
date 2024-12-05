@@ -65,6 +65,7 @@ permalink: /posts/
     padding: 10px;
     background: #333;
     border-top: 1px solid #444;
+    display:none;
   }
 
   input {
@@ -97,62 +98,33 @@ permalink: /posts/
   <!-- Chat Messages -->
   <div class="chat-container" id="chat-container">
     <div class="message left">Welcome to the chatroom!</div>
+  
+  <div>
+  <button class="Button" onClick="OpenChat('Maths')">Maths</button>
+   <button class="Button" onClick="OpenChat('Science')">Science</button>
+    <button class="Button" onClick="OpenChat('CS')">Computer Science</button>
+     <button class="Button" onClick="OpenChat('History')">History</button>
+      <button class="Button" onClick="OpenChat('English')">English</button>
   </div>
-
-  <!-- Input Section -->
-  <div class="input-container">
-    <input type="text" id="message-input" placeholder="Type your message here...">
+   <div class="message left" id="chatsubject">Click on any subject above to open subject chat!</div>
+   <div id="chatbox1" style="
+        display:none;
+        padding: 10px; 
+        height: 300px; 
+        overflow-y: auto; 
+        background:#1A2830; /* Very light sea blue */
+        border-bottom: 2px solid #0077be;
+    ">
+    </div>
+    
+  <div class="input-container" id="chatinput">
+     <input type="text" id="message-input" placeholder="Type your message here...">
     <button id="send-button">Send</button>
   </div>
+  
 </div>
+  
 
-<script>
-  const chatContainer = document.getElementById('chat-container');
-  const messageInput = document.getElementById('message-input');
-  const sendButton = document.getElementById('send-button');
-
-  // Function to Add Messages
-  function addMessage(text, side) {
-    const message = document.createElement('div');
-    message.classList.add('message', side);
-    message.textContent = text;
-    chatContainer.appendChild(message);
-    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the bottom
-  }
-
-  // Handle Sending Messages
-  sendButton.addEventListener('click', () => {
-    const messageText = messageInput.value.trim();
-    if (messageText !== '') {
-      addMessage(messageText, 'right'); // User's message
-      messageInput.value = '';
-
-      // Simulated Response
-      setTimeout(() => {
-        addMessage('This is an auto-reply!', 'left'); // Auto-reply message
-      }, 1000);
-    }
-  });
-
-  // Allow Enter Key to Send Messages
-  messageInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      sendButton.click();
-    }
-<<<<<<< HEAD
-
-    animateGalaxy();
-  </script>
-</body>
-
-
-
----
-layout: base
-title: Ai Homework Bot
-search_exclude: true
-permalink: /ai_homework_bot/
----
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
     position: fixed;
@@ -262,6 +234,15 @@ permalink: /ai_homework_bot/
         botPopup.style.display = 'none';
     });
 
+async function OpenChat(subject) {
+  const chatBox = document.getElementById("chatbox1");
+  chatBox.style.display = "block";
+  const chatinput = document.getElementById("chatinput");
+  chatinput.style.display = "block";
+  const chatsubject = document.getElementById("chatsubject");
+  chatsubject.textContent = subject;
+   
+}
     // Chatbot Logic
     async function sendQuestion() {
         const question = document.getElementById("question").value;
@@ -311,8 +292,5 @@ permalink: /ai_homework_bot/
         border-radius: 5px;
     }
 </style>
-=======
   });
-</script>
 {% endraw %}
->>>>>>> 8351117 (o)
