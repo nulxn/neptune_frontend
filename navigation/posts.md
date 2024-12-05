@@ -259,7 +259,7 @@ permalink: /posts/
     botPopup.style.display = 'none';
   });
 
-# galaxy bg color, hide and show subject chat based on button click
+//  galaxy bg color, hide and show subject chat based on button click
 
   async function OpenChat(subject, bcolor) {
     const chatBox = document.getElementById("chatbox1");
