@@ -2,6 +2,7 @@
 layout: base
 title: Poseidon Homework Bot
 search_exclude: true
+menu: nav/home.html
 permalink: /ai_homework_bot/
 ---
 
@@ -25,7 +26,6 @@ permalink: /ai_homework_bot/
     ">
         Poseidon Homework Bot
     </div>
-
     <!-- Chat Section -->
     <div id="chat-box" style="
         flex-grow: 1; /* Take up remaining space */
@@ -38,7 +38,6 @@ permalink: /ai_homework_bot/
         border-radius: 10px; /* Slightly rounded corners */
     ">
     </div>
-
     <!-- Input Section -->
     <div style="
         display: flex;
