@@ -6,18 +6,19 @@ permalink: /posts/
 ---
 
 {% raw %}
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Simple Chatroom</title>
 
 <style>
-  body, html {
+  body,
+  html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     font-family: Arial, sans-serif;
-      background: url(https://i.ibb.co/87GbbFP/2799006.jpg) no-repeat !important;
+    background: url(https://i.ibb.co/87GbbFP/2799006.jpg) no-repeat !important;
     background-size: cover;
     height: 100%;
     width: 100%;
@@ -25,10 +26,10 @@ permalink: /posts/
     top: 0;
     left: 0;
     z-index: -3;
-        color: white;
+    color: white;
     display: flex;
-    flex-direction: column; 
-         }
+    flex-direction: column;
+  }
 
   /* Chatroom Container */
   .chatroom {
@@ -133,30 +134,49 @@ permalink: /posts/
     <!-- Subject Buttons -->
     <div>
       <button class="buttonred" onClick="OpenChat('Maths','red')">Maths</button>
-      <button class="buttongreen" onClick="OpenChat('Science','green')">Science</button>
-      <button class="buttonblue" onClick="OpenChat('CS','blue')">Computer Science</button>
-      <button class="buttonyellow" onClick="OpenChat('History','yellow')">History</button>
-      <button class="buttonpurple" onClick="OpenChat('English','purple')">English</button>
+      <button class="buttongreen" onClick="OpenChat('Science','green')">
+        Science
+      </button>
+      <button class="buttonblue" onClick="OpenChat('CS','blue')">
+        Computer Science
+      </button>
+      <button class="buttonyellow" onClick="OpenChat('History','yellow')">
+        History
+      </button>
+      <button class="buttonpurple" onClick="OpenChat('English','purple')">
+        English
+      </button>
     </div>
 
-    <div class="message left" id="chatsubject">Click on any subject above to open subject chat!</div>
-    <div id="chatbox1" style="
-          display: none;
-          padding: 10px;
-          height: 300px;
-          overflow-y: auto;
-          background: #1A2830; /* Very light sea blue */
-          border-bottom: 2px solid #0077be;">
+    <div class="message left" id="chatsubject">
+      Click on any subject above to open subject chat!
     </div>
+    <div
+      id="chatbox1"
+      style="
+        display: none;
+        padding: 10px;
+        height: 300px;
+        overflow-y: auto;
+        background: #1a2830; /* Very light sea blue */
+        border-bottom: 2px solid #0077be;
+      "
+    ></div>
 
     <div class="input-container" id="chatinput">
-      <input type="text" id="message-input" placeholder="Type your message here...">
+      <input
+        type="text"
+        id="message-input"
+        placeholder="Type your message here..."
+      />
       <button id="send-button">Send</button>
     </div>
   </div>
 
   <!-- Poseidon Homework Bot Floating Button -->
-  <div id="ai-bot-button" style="
+  <div
+    id="ai-bot-button"
+    style="
       position: fixed;
       bottom: 20px;
       right: 20px;
@@ -168,12 +188,17 @@ permalink: /posts/
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       font-size: 20px;
-      text-align: center;">
-    🔱 <!-- Trident Icon -->
+      text-align: center;
+    "
+  >
+    🔱
+    <!-- Trident Icon -->
   </div>
 
   <!-- Poseidon Homework Bot Popup Modal -->
-  <div id="ai-bot-popup" style="
+  <div
+    id="ai-bot-popup"
+    style="
       display: none;
       position: fixed;
       bottom: 80px;
@@ -184,32 +209,56 @@ permalink: /posts/
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       overflow: hidden;
-      font-family: 'Arial', sans-serif;">
-    <div style="
+      font-family: 'Arial', sans-serif;
+    "
+  >
+    <div
+      style="
         background-color: #0077be; /* Ocean blue */
         color: white;
         padding: 10px;
         font-size: 18px;
-        text-align: center;">
+        text-align: center;
+      "
+    >
       Poseidon Homework Bot
-      <span id="close-bot" style="float: right; cursor: pointer;">&times;</span>
+      <span id="close-bot" style="float: right; cursor: pointer">&times;</span>
     </div>
-    <div id="chat-box" style="
+    <div
+      id="chat-box"
+      style="
         padding: 10px;
         height: 300px;
         overflow-y: auto;
         background-color: #e0f7ff; /* Very light sea blue */
-        border-bottom: 2px solid #0077be;">
-    </div>
-    <div style="display: flex; flex-direction: column; padding: 10px; gap: 10px; background-color: #0077be;">
-      <input type="text" id="question" placeholder="Type your question here" style="
+        border-bottom: 2px solid #0077be;
+      "
+    ></div>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 10px;
+        background-color: #0077be;
+      "
+    >
+      <input
+        type="text"
+        id="question"
+        placeholder="Type your question here"
+        style="
           width: 100%;
           padding: 10px;
           border: none;
           border-radius: 5px;
           background-color: white; /* Light box background */
-          color: #0056b3; /* Deep blue text */">
-      <button onclick="sendQuestion()" style="
+          color: #0056b3; /* Deep blue text */
+        "
+      />
+      <button
+        onclick="sendQuestion()"
+        style="
           width: 100%;
           padding: 10px;
           background-color: #0056b3; /* Darker blue for the button */
@@ -217,7 +266,9 @@ permalink: /posts/
           border: none;
           border-radius: 5px;
           cursor: pointer;
-          font-weight: bold;">
+          font-weight: bold;
+        "
+      >
         Ask Poseidon
       </button>
     </div>
@@ -236,30 +287,30 @@ permalink: /posts/
   }
 
   const fetchOptions = {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'default',
-    credentials: 'include',
+    method: "GET",
+    mode: "cors",
+    cache: "default",
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json',
-      'X-Origin': 'client'
+      "Content-Type": "application/json",
+      "X-Origin": "client",
     },
   };
 
   // Toggle Popup
-  const botButton = document.getElementById('ai-bot-button');
-  const botPopup = document.getElementById('ai-bot-popup');
-  const closeBot = document.getElementById('close-bot');
+  const botButton = document.getElementById("ai-bot-button");
+  const botPopup = document.getElementById("ai-bot-popup");
+  const closeBot = document.getElementById("close-bot");
 
-  botButton.addEventListener('click', () => {
-    botPopup.style.display = 'block';
+  botButton.addEventListener("click", () => {
+    botPopup.style.display = "block";
   });
 
-  closeBot.addEventListener('click', () => {
-    botPopup.style.display = 'none';
+  closeBot.addEventListener("click", () => {
+    botPopup.style.display = "none";
   });
 
-//  galaxy bg color, hide and show subject chat based on button click
+  //  galaxy bg color, hide and show subject chat based on button click
 
   async function OpenChat(subject, bcolor) {
     const chatBox = document.getElementById("chatbox1");
@@ -269,7 +320,7 @@ permalink: /posts/
     chatinput.style.display = "block";
     const chatsubject = document.getElementById("chatsubject");
     chatsubject.textContent = subject;
-     chatsubject.style.backgroundColor = bcolor;
+    chatsubject.style.backgroundColor = bcolor;
   }
 
   async function sendQuestion() {
@@ -285,7 +336,7 @@ permalink: /posts/
     const response = await fetch(`${pythonURI}/api/ai/help`, {
       ...fetchOptions,
       method: "POST",
-      body: JSON.stringify({ question })
+      body: JSON.stringify({ question }),
     });
 
     const data = await response.json();
