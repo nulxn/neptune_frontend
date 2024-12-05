@@ -51,6 +51,17 @@ show_reading_time: false
     return await _newPost.json();
   }
 
+  function addImage(postId, img) {
+    fetch(`${pythonURI}/api/image`, {
+      ...fetchOptions,
+      method: "POST",
+      body: JSON.stringify({
+        postId: postId,
+        img: img,
+      }),
+    });
+  }
+
   async function likePost(id, title, channel_id, likes) {
     await fetch(`${pythonURI}/api/post`, {
       ...fetchOptions,
@@ -101,6 +112,13 @@ show_reading_time: false
     cancelButton.innerText = "Cancel";
     cancelButton.style.display = "block";
 
+    let fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.id = "fileImg";
+    fileInput.style.display = "block";
+    fileInput.style.marginBottom = "10px";
+    popup.appendChild(fileInput);
+
     // Append elements to the popup
     popup.appendChild(titleInput);
     popup.appendChild(commentInput);
@@ -117,9 +135,16 @@ show_reading_time: false
         comment: commentInput.value,
         channel_id: channelId,
       };
-      await newPost(newData);
-      document.body.removeChild(popup);
-      location.reload(); // Reload the page to show the new post
+      let stuff = await newPost(newData);
+
+      let reader = new FileReader();
+      reader.readAsDataURL(fileInput.files[0]);
+      reader.onloadend = function () {
+        addImage(stuff.id, reader.result);
+        console.log(reader.result);
+        document.body.removeChild(popup);
+        location.reload();
+      };
     });
 
     cancelButton.addEventListener("click", () => {
@@ -161,6 +186,8 @@ show_reading_time: false
         <br />
         <p><strong>Likes:</strong> ${post.content.likes}</p>
         <button onclick="likePost(${post.id}, '${post.title}', ${channelId}, ${post.content.likes})">Like</button>
+
+        <img src="${pythonURI}/nolanuploads/${post.id}.png" style="width: 100%; margin-top: 10px" />
       `;
 
       postElement.style.backgroundColor = "rgba(0, 0, 0, 0.25)";
