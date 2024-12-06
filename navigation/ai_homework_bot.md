@@ -5,7 +5,6 @@ search_exclude: true
 menu: nav/home.html
 permalink: /ai_homework_bot/
 ---
-
 <!-- Full-Page Poseidon Homework Bot -->
 <div id="poseidon-bot-container" style="
     display: flex;
@@ -26,6 +25,7 @@ permalink: /ai_homework_bot/
     ">
         Poseidon Homework Bot
     </div>
+
     <!-- Chat Section -->
     <div id="chat-box" style="
         flex-grow: 1; /* Take up remaining space */
@@ -38,6 +38,7 @@ permalink: /ai_homework_bot/
         border-radius: 10px; /* Slightly rounded corners */
     ">
     </div>
+
     <!-- Input Section -->
     <div style="
         display: flex;
@@ -68,6 +69,20 @@ permalink: /ai_homework_bot/
         ">
             Ask Poseidon
         </button>
+        <button onclick="recordVoice()" style="
+            padding: 15px 20px;
+            background-color: white; /* Contrasting button background */
+            color: #0056b3; /* Dark blue text */
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        ">
+            🎙️ Record
+        </button>
     </div>
 </div>
 
@@ -93,37 +108,6 @@ permalink: /ai_homework_bot/
         },
     };
 
-    // Load chats from local storage on page load
-    window.onload = function () {
-        const chatBox = document.getElementById("chat-box");
-        const userId = "default_user"; // Replace with unique user ID if available
-        const storedChats = localStorage.getItem(`chats_${userId}`);
-        if (storedChats) {
-            const chats = JSON.parse(storedChats);
-            chats.forEach(chat => {
-                chatBox.innerHTML += `
-                    <div style="margin-bottom: 20px; 
-                                background: ${chat.role === 'user' ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 119, 190, 0.8)'}; 
-                                padding: 15px; 
-                                border-radius: 8px; 
-                                border: 2px solid white; 
-                                color: ${chat.role === 'user' ? '#0056b3' : 'white'};">
-                        <strong>${chat.role === 'user' ? 'You' : 'Poseidon'}:</strong> ${chat.message}
-                    </div>`;
-            });
-            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
-        }
-    };
-
-    // Save chats to local storage
-    function saveChatsToLocalStorage(chat) {
-        const userId = "default_user"; // Replace with unique user ID if available
-        const storedChats = localStorage.getItem(`chats_${userId}`);
-        const chats = storedChats ? JSON.parse(storedChats) : [];
-        chats.push(chat);
-        localStorage.setItem(`chats_${userId}`, JSON.stringify(chats));
-    }
-
     // Chatbot Logic
     async function sendQuestion() {
         const question = document.getElementById("question").value;
@@ -131,15 +115,10 @@ permalink: /ai_homework_bot/
 
         // Display the user's question
         chatBox.innerHTML += `
-            <div style="margin-bottom: 20px; 
-                        background: rgba(0, 0, 0, 0.25); 
-                        padding: 15px; 
-                        border-radius: 8px; 
-                        border: 2px solid white; 
-                        color: #0056b3;">
-                <strong>You:</strong> ${question}
+            <div style="margin-bottom: 20px; background: rgba(232, 244, 255, 0.85); padding: 15px; border-radius: 8px;">
+                <strong style="color: #0056b3;">You:</strong> 
+                <span style="color: #0056b3;">${question}</span>
             </div>`;
-        saveChatsToLocalStorage({ role: "user", message: question });
 
         // Send the question to the backend
         const response = await fetch(`${pythonURI}/api/ai/help`, {
@@ -153,18 +132,34 @@ permalink: /ai_homework_bot/
         const aiResponse = data.response || "Error: Unable to fetch response.";
 
         chatBox.innerHTML += `
-            <div style="margin-bottom: 20px; 
-                        background: rgba(0, 119, 190, 0.8); 
-                        padding: 15px; 
-                        border-radius: 8px; 
-                        border: 2px solid white; 
-                        color: white;">
+            <div style="margin-bottom: 20px; background: #0077be; padding: 15px; border-radius: 8px; color: white;">
                 <strong>Poseidon:</strong> ${aiResponse}
             </div>`;
-        saveChatsToLocalStorage({ role: "ai", message: aiResponse });
         document.getElementById("question").value = ""; // Clear input
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
     }
+
+    // Record voice and convert to text
+    function recordVoice() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            alert(`You said: ${transcript}`);
+    };
+
+    recognition.onerror = (event) => {
+        console.error(`Speech Recognition Error: ${event.error}`);
+        alert(`Error occurred: ${event.error}`);
+    };
+}
+
+    
 </script>
 
 <!-- Optional CSS -->
