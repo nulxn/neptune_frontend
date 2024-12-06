@@ -1,0 +1,323 @@
+---
+layout: post
+search_exclude: true
+hide: true
+menu: nav/home.html
+show_reading_time: false
+---
+
+<h1>Welcome to Neptune!</h1>
+
+<div class="sidebar">
+  <h3>Your Ring</h3>
+  <button class="friend-btn" data-debate="Friend 1" data-channel-id="17">
+    Akshaj
+  </button>
+  <button class="friend-btn" data-debate="Friend 2" data-channel-id="18">
+    Shawn
+  </button>
+  <button class="friend-btn" data-debate="Friend 3" data-channel-id="19">
+    Arya
+  </button>
+  <button class="friend-btn" data-debate="Friend 4" data-channel-id="20">
+    Yash
+  </button>
+  <button class="friend-btn" data-debate="Friend 5" data-channel-id="21">
+    Nolan
+  </button>
+  <button class="friend-btn" data-debate="Friend 6" data-channel-id="22">
+    Kanhay
+  </button>
+</div>
+
+<div class="sidebar1">
+  <h3>Add Friends</h3>
+  <button class="new-friend-btn" data-debate="Friend 7" data-channel-id="23">
+    Patty Mahomes
+  </button>
+  <button class="new-friend-btn" data-debate="Friend 8" data-channel-id="24">
+    Michael Jackson
+  </button>
+  <button class="new-friend-btn" data-debate="Friend 9" data-channel-id="25">
+    Lil Nas X
+  </button>
+  <button class="new-friend-btn" data-debate="Friend 10" data-channel-id="26">
+    Ansh Kumar
+  </button>
+  <button class="new-friend-btn" data-debate="Friend 11" data-channel-id="27">
+    Mbappe
+  </button>
+  <button class="new-friend-btn" data-debate="Friend 12" data-channel-id="28">
+    Mr.Mortensen
+  </button>
+</div>
+
+<div class="container">
+  <h1>Choose you Journey</h1>
+
+  <section id="debate-selection">
+    <button
+      id="side1"
+      onclick="window.location.href='/neptune_frontend/schedule'"
+      class="side-btn"
+    >
+      View Schedule
+    </button>
+    <button
+      id="side2"
+      onclick="window.location.href='/neptune_frontend/astronet'"
+      class="side-btn"
+    >
+      View AstroNet
+    </button>
+  </section>
+
+  <section id="argument-section" class="hidden">
+    <h2 id="selected-side">Your Side:</h2>
+    <textarea id="argument-input" placeholder="Submit your argument"></textarea>
+    <button id="submit-argument" class="submit-btn">Submit Argument</button>
+  </section>
+
+  <section id="arguments-list" class="hidden">
+    <h2>Arguments</h2>
+    <ul id="argument-container"></ul>
+  </section>
+</div>
+
+<style>
+  .sidebar {
+    width: 200px;
+    background: #222;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 70px;
+    left: 20px;
+  }
+
+  .sidebar h3 {
+    color: #00e5ff;
+  }
+
+  .sidebar1 {
+    width: 200px;
+    background: #222;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 70px;
+    right: 20px;
+  }
+
+  .sidebar1 h3 {
+    color: #00e5ff;
+  }
+
+  .rulebar {
+    width: 200px;
+    height: 80px;
+    background: #000000;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 650px;
+    left: 20px;
+  }
+
+  .friend-btn {
+    display: block;
+    background: #00e5ff;
+    color: #fff;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .new-friend-btn {
+    display: block;
+    background: #00e5ff;
+    color: #fff;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .rule-btn {
+    display: block;
+    background: #00e5ff;
+    color: #fff;
+    width: 166px;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .friend-btn:hover {
+    background: #0099cc;
+  }
+
+  .new-friend-btn:hover {
+    background: #0099cc;
+  }
+
+  body {
+    font-family: "Roboto", sans-serif;
+    background: linear-gradient(to right, #013b54, #4b1f30);
+    color: #fff;
+    margin: 0; /* Remove default margin */
+    min-height: 100vh; /* Ensure the body takes full height */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .modal-content {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(
+      26,
+      26,
+      26,
+      0.9
+    ); /* Slightly transparent to see the background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: #00e5ff;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .side-btn,
+  .submit-btn,
+  .acknowledge-btn {
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: #fff;
+    transition: background 0.3s ease;
+    background: linear-gradient(45deg, #00e5ff, #0099cc);
+    border-radius: 10px;
+  }
+
+  .side-btn:hover {
+    background: linear-gradient(45deg, #0099cc, #006699);
+  }
+
+  #argument-input {
+    width: 100%;
+    height: 100px;
+    border: 2px solid #00e5ff;
+    border-radius: 10px;
+    background: #0a0a0a;
+    color: #fff;
+    padding: 1rem;
+    resize: none;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background: #1a1a1a;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  li .rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .rate button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #00e5ff;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  <div id="bubble-container"></div>;
+
+  function createBubble() {
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    // Randomize bubble properties
+    const size = Math.random() * 40 + 10; // Size between 10px and 50px
+    const position = Math.random() * 100; // Horizontal position as a percentage
+    const duration = Math.random() * 3 + 2; // Duration between 2s and 5s
+
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
+    bubble.style.left = `${position}vw`; // Random horizontal position
+    bubble.style.animationDuration = `${duration}s`; // Randomize animation duration
+
+    // Append the bubble to the bubble container
+    const bubbleContainer = document.getElementById("bubble-container");
+    bubbleContainer.appendChild(bubble);
+
+    // Remove the bubble after 5 seconds
+    setTimeout(() => {
+      bubble.remove();
+    }, 5000);
+  }
+
+  // Generate bubbles at intervals
+  setInterval(createBubble, 500); // Create a bubble every 500ms
+</script>

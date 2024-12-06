@@ -17,5 +17,4 @@ plugins:
   - jekyll-remote-theme
 header_pages:
   - navigation/ai.md
-  - navigation/astronet.html
   - navigation/
