@@ -2,7 +2,7 @@ title: Neptune
 description: "Social Media for Del Norte High School"
 owner_name: Akshaj Gurugubelli
 github_username: nighthawkcoders
-github_repo: "neptune_frontend" 
+github_repo: "neptune_frontend"
 baseurl: "/neptune_frontend"
 future: true
 remote_theme: jekyll/minima

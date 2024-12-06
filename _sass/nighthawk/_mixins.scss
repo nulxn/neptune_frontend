@@ -1,7 +1,11 @@
 // _mixins.scss
 
 // Mixin used as a template for buttons
-@mixin button($backgroundColor: lightseagreen, $borderColor: black, $hoverBackgroundColor: darkslateblue) {
+@mixin button(
+  $backgroundColor: lightseagreen,
+  $borderColor: black,
+  $hoverBackgroundColor: darkslateblue
+) {
   width: auto;
   height: auto;
   border-radius: 10px;
@@ -20,6 +24,6 @@
   transition: all 0.5s;
 
   &:hover {
-      background-color: $hoverBackgroundColor;
+    background-color: $hoverBackgroundColor;
   }
 }

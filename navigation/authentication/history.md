@@ -1,10 +1,11 @@
 ---
-layout: post 
+layout: post
 title: History of Posts
 permalink: /history
 menu: nav/home.html
 search_exclude: true
 ---
+
 <style>
     .container {
         display: flex;

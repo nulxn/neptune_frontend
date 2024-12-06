@@ -59,7 +59,6 @@ table {
   }
 }
 
-
 ///////// Layout ///////////
 
 .site-header {
@@ -74,7 +73,7 @@ table {
 
 .site-title {
   color: $text-color;
-  
+
   &:visited {
     color: $text-color;
   }
@@ -130,7 +129,8 @@ ul.post-tags {
 
 .pagination {
   li {
-    a, div {
+    a,
+    div {
       border-color: $border-color-light;
     }
 
@@ -138,7 +138,8 @@ ul.post-tags {
       border: 1px dashed $border-color-light;
     }
 
-    a.previous-page, a.next-page {
+    a.previous-page,
+    a.next-page {
       &:hover {
         border-color: $border-color;
       }

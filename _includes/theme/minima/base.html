@@ -5,15 +5,15 @@
     let _authed;
     document.addEventListener("DOMContentLoaded", function () {
       let cookies = document.cookie.split("; ");
-      cookies.forEach(cookie => {
-        const [key, value] = cookie.split('=');
+      cookies.forEach((cookie) => {
+        const [key, value] = cookie.split("=");
         if (key === "jwt_python_flask") {
           _authed = true;
         }
       });
 
       if (!_authed && !window.location.href.endsWith("login")) {
-        window.location.href = '/neptune_frontend/login';
+        window.location.href = "/neptune_frontend/login";
       }
     });
   </script>
@@ -28,11 +28,13 @@
   <style>
     /* Full-Page Background with Strong Glowing Effect */
     body {
-      background: linear-gradient(135deg,
-          #1254f0,
-          hsla(277, 73%, 74%, 0.632),
-          #25c3f8,
-          #5a67d8);
+      background: linear-gradient(
+        135deg,
+        #1254f0,
+        hsla(277, 73%, 74%, 0.632),
+        #25c3f8,
+        #5a67d8
+      );
       background-size: 400% 400%;
       animation: glowingBackground 20s ease infinite;
       font-family: Arial, sans-serif;

@@ -30,26 +30,26 @@
     }
 
     .icon-container {
-        display: flex;
-        align-items: center;
+      display: flex;
+      align-items: center;
     }
     .icon-container select {
-        flex-grow: 1;
-        margin-right: 15px; /* Space between dropdown and icon */
+      flex-grow: 1;
+      margin-right: 15px; /* Space between dropdown and icon */
     }
 
-  /* Hide the default file input */
+    /* Hide the default file input */
     #profilePicture {
-        display: none;
+      display: none;
     }
     /* Style the custom file icon */
     .file-icon {
-        font-size: 24px;
-        color: white; /* Light grey color */
-        cursor: pointer; /* Indicate that it is clickable */
+      font-size: 24px;
+      color: white; /* Light grey color */
+      cursor: pointer; /* Indicate that it is clickable */
     }
     .file-icon:hover {
-        color: #ffffff; /* Change icon color on hover */
+      color: #ffffff; /* Change icon color on hover */
     }
 
     table {
@@ -75,7 +75,6 @@
         border-radius: 50%;
         border: 2px solid #34495e;
       }
-
     }
   }
 }

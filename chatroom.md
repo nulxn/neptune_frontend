@@ -2,7 +2,7 @@
 layout: post
 title: Chatroom
 search_exclude: true
-description: Discuss your classes with your classmates  
+description: Discuss your classes with your classmates
 hide: true
 menu: nav/home.html
 ---
@@ -84,6 +84,7 @@ menu: nav/home.html
       border-radius: 20px;
       cursor: pointer;
     }
+
   </style>
 </head>
 <body>
@@ -136,15 +137,19 @@ menu: nav/home.html
     }
 
     animateGalaxy();
+
   </script>
 </body>
 
 ---
+
 layout: base
 title: Ai Homework Bot
 search_exclude: true
 permalink: /ai_homework_bot/
+
 ---
+
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
     position: fixed;

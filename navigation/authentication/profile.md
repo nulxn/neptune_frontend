@@ -6,6 +6,7 @@ menu: nav/home.html
 search_exclude: true
 show_reading_time: false
 ---
+
 <style>
 /* Flex container for overall layout */
 .profile-container {
@@ -158,7 +159,6 @@ input::placeholder {
 </div>
 <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()" hidden>
 
-
   <!-- Form Section -->
   <div class="form-section">
     <form>
@@ -184,7 +184,6 @@ input::placeholder {
             </form>
         </div>
     </div>
-
 
 <script type="module">
 // Import fetchOptions from config.js

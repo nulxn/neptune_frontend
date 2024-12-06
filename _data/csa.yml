@@ -1,44 +1,44 @@
 # course illustrations
 introduction_tools: &introduction_tools |
-    +-----------------+
-    | Laptop, OS      |
-    | Tool Setup      | 
-    +-----------------+
-       |
-       | VS Code,  Markdown, Jupyter Notebook (.ipynb), JavaScript (.md, .html)
-       v
-    +-----------------+
-    | VS Code, Develop|
-    | Code Editor     | 
-    +-----------------+
-       |
-       | Write code, make, run localhost, test, debug
-       v
-    +-----------------+
-    | VS Code, Git    |
-    | Version Control |       | 
-    +-----------------+
-       |
-       | Commit local versions, comment, show changes, reset branch
-       v
-    +-----------------+
-    | VS Code, Project|
-    | GitHub Sync     |
-    +-----------------+
-       |
-       | Push changes to GitHub cloud Repository (repo
-       v
-    +-----------------+
-    | GitHub,  Collab |
-    | Shared Code     |
-    +-----------------+
-       |
-       | Tracking GitHub pages Actions, understanding Jekyll build files
-       v
-    +-----------------+
-    | GitHub Pages    | ->  Highlight languages, coding, and course skills, with Awesome Style
-    | Showcase Project| ->  Share project with the world
-    +-----------------+
+  +-----------------+
+  | Laptop, OS      |
+  | Tool Setup      | 
+  +-----------------+
+     |
+     | VS Code,  Markdown, Jupyter Notebook (.ipynb), JavaScript (.md, .html)
+     v
+  +-----------------+
+  | VS Code, Develop|
+  | Code Editor     | 
+  +-----------------+
+     |
+     | Write code, make, run localhost, test, debug
+     v
+  +-----------------+
+  | VS Code, Git    |
+  | Version Control |       | 
+  +-----------------+
+     |
+     | Commit local versions, comment, show changes, reset branch
+     v
+  +-----------------+
+  | VS Code, Project|
+  | GitHub Sync     |
+  +-----------------+
+     |
+     | Push changes to GitHub cloud Repository (repo
+     v
+  +-----------------+
+  | GitHub,  Collab |
+  | Shared Code     |
+  +-----------------+
+     |
+     | Tracking GitHub pages Actions, understanding Jekyll build files
+     v
+  +-----------------+
+  | GitHub Pages    | ->  Highlight languages, coding, and course skills, with Awesome Style
+  | Showcase Project| ->  Share project with the world
+  +-----------------+
 
 college_board_fundamentals: &college_board_fundamentals |
   College Board Basic Programming Units
@@ -81,7 +81,7 @@ college_board_fundamentals: &college_board_fundamentals |
     | Inheritance      | --> Extend class, polymorphism, super, this, ...
     | 5%-7.5%          |
     +------------------+
-  
+
 data_structures: &data_structures |
   Required Data Structures for Course
   -----------------------------------
@@ -150,37 +150,37 @@ frq_types: &frq_types |
   +--------------------+
 
 web_dev_layers: &web_dev_layers |
-    +---------------+
-    | GitHub Pages  |
-    | Design, Layout|
-    |   Frontend    |
-    +---------------+
-          |
-          | User presentation, style 
-          | Actions
-          v
-    +--------------+
-    |  JavaScript  |
-    | Logic/Events |
-    +--------------+
-          |
-          | Functionality, interactivity
-          | Sends HTTP requests/responses
-          v
-    +----------------+
-    | AWS EC2 Server |
-    |  Java / Spring |
-    |    Backend     |
-    +----------------+
-          |
-          | Server-Side Processing
-          | Analysis, POJOs, ORM, JPA
-          | Communicate with AWS Services
-          v
-    +----------------+
-    |  AWS Services  |
-    |   Store Data   |
-    +----------------+
+  +---------------+
+  | GitHub Pages  |
+  | Design, Layout|
+  |   Frontend    |
+  +---------------+
+        |
+        | User presentation, style 
+        | Actions
+        v
+  +--------------+
+  |  JavaScript  |
+  | Logic/Events |
+  +--------------+
+        |
+        | Functionality, interactivity
+        | Sends HTTP requests/responses
+        v
+  +----------------+
+  | AWS EC2 Server |
+  |  Java / Spring |
+  |    Backend     |
+  +----------------+
+        |
+        | Server-Side Processing
+        | Analysis, POJOs, ORM, JPA
+        | Communicate with AWS Services
+        v
+  +----------------+
+  |  AWS Services  |
+  |   Store Data   |
+  +----------------+
 
 # CSA course meta data
 Sprint1:
@@ -216,7 +216,7 @@ Sprint6:
   description: Each person within "Student Teams" will have their own specialty within their student project that shows Full Stack competency, with a specific focus on Java as backend. Intentions for this period are to have the freedom of a creative project, driven by your individual Issues and team Scrum Board.
   start: 20
   end: 24
-Sprint7: 
+Sprint7:
   title: Data Structures
   description: A focus on Data Structures that relate to the AP exam. A key requirement is to make your own Algorithmic sorting video. The theme is to produce work that can help you pass the AP Exam and improve your Passion Project. Each student must cover key concepts from the Four AP FRQ types, contain a key Data Structure, and utilize Sorting.
   illustration: *data_structures

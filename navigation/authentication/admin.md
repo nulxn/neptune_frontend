@@ -4,5 +4,5 @@ title: Admin
 permalink: /admin
 search_exclude: true
 ---
-{% include nav/home.html %}
 
+{% include nav/home.html %}

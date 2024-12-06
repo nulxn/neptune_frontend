@@ -7,11 +7,7 @@ search_exclude: true
 show_reading_time: false
 ---
 
-
 {% include schedule.html %}
-
-
-
 
 <!-- Poseidon Homework Bot Floating Button -->
 <div id="ai-bot-button" style="
@@ -171,4 +167,3 @@ show_reading_time: false
         border-radius: 5px;
     }
 </style>
-

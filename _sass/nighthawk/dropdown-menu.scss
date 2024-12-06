@@ -40,16 +40,16 @@
 
 // Pass the hover color to the mixin
 .dropdown {
-  @include dropdown-styles(black,darkblue); // Original color for hover 
+  @include dropdown-styles(black, darkblue); // Original color for hover
 }
 
-// New color for the second dropdown menu 
+// New color for the second dropdown menu
 .dropdownp1 {
   @include dropdown-styles(black, rgb(159, 255, 56)); // New color for hover
 }
 
 .dropdownp2 {
-  @include dropdown-styles(black,#232f2a); // New color for hover
+  @include dropdown-styles(black, #232f2a); // New color for hover
 }
 
 .dropdownp3 {
@@ -57,7 +57,7 @@
 }
 
 .dropdownp4 {
-  @include dropdown-styles( rgb(51, 139, 253), #44475a); // New color for hover
+  @include dropdown-styles(rgb(51, 139, 253), #44475a); // New color for hover
 }
 
 @keyframes scaleIn {

@@ -5,6 +5,7 @@ permalink: /post
 menu: nav/home.html
 search_exclude: true
 ---
+
 <style>
     .container {
         display: flex;
