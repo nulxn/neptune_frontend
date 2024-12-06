@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: base
 title: Poseidon Homework Bot
 search_exclude: true
 menu: nav/home.html
