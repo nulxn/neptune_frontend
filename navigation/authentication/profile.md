@@ -160,8 +160,8 @@ input::placeholder {
 <input type="file" id="profilePicture" accept="image/*" onchange="saveProfilePicture()" hidden>
 
   <!-- Form Section -->
+
   <div class="form-section">
-    <form>
       <div>
         <label for="newUid">Enter New Username:</label>
         <input type="text" id="newUid" placeholder="Fetching UID...">
@@ -180,10 +180,6 @@ input::placeholder {
                 <input type="password" id="currentPassword" placeholder="Enter current password">
                 <label for="newPassword">New Password</label>
                 <input type="password" id="newPassword" placeholder="Enter new password">
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
 
 <script type="module">
 // Import fetchOptions from config.js
