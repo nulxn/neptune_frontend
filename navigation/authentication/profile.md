@@ -150,6 +150,14 @@ input::placeholder {
     border-radius: 4px;
     margin-top: 20px;
   }
+    body.light-mode {
+            background-color: white;
+            color: black;
+        }
+    body.dark-mode {
+            background-color: black;
+            color: white;
+        }
 </style>
 
 <div class="profile-container">
@@ -170,6 +178,11 @@ input::placeholder {
         <label for="newName">Enter New Display Name:</label>
         <input type="text" id="newName" placeholder="New Name">
       </div>
+<div class="light-mode" id="body">
+    <button id="themeButton">Current Theme: Light</button>
+</div>
+
+
 <button id="changePasswordButton" onclick="openPasswordModal(event)">Change Password</button>
     <div id="passwordModal" class="modal">
         <div class="modal-content">
@@ -349,7 +362,49 @@ async function submitPasswordChange(event) {
 };
 
 
+//Theme Stuff
+document.addEventListener('DOMContentLoaded', (event) => {
+            const themeButton = document.getElementById('themeButton');
+            const body = document.getElementById('body');
 
+            // Set initial theme based on backend data (simulated here)
+            let themeMode = 'light'; // This value should come from the backend
+            body.className = themeMode + '-mode';
+            themeButton.textContent = 'Current Theme: ' + capitalizeFirstLetter(themeMode);
+
+            themeButton.addEventListener('click', () => {
+                // Toggle theme
+                themeMode = themeMode === 'light' ? 'dark' : 'light';
+
+                // Update the body class and button text
+                body.className = themeMode + '-mode';
+                themeButton.textContent = 'Current Theme: ' + capitalizeFirstLetter(themeMode);
+
+                // Update backend with new theme mode (you'll need an API call here)
+                // Example: updateThemeModeOnBackend(themeMode);
+            });
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            // Simulated API call function
+            function updateThemeModeOnBackend(themeMode) {
+                fetch('/api/user/theme', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ theme_mode: themeMode })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Theme mode updated successfully');
+                    } else {
+                        console.log('Failed to update theme mode');
+                    }
+                });
+            }
+        });
 
 // Function to fetch user profile data
 async function fetchUserProfile() {
