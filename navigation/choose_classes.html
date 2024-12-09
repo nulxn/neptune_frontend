@@ -57,10 +57,7 @@ show_reading_time: false
     cursor: pointer;
     margin: 20px auto;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    transition:
-      transform 0.2s ease,
-      background 0.3s ease,
-      margin 0.2s ease,
+    transition: transform 0.2s ease, background 0.3s ease, margin 0.2s ease,
       box-shadow 0.3s ease;
     display: flex;
     justify-content: space-between;
@@ -303,14 +300,68 @@ permalink: /ai_homework_bot/
               button.onclick = function () {
                 //alert(`You selected ${_class} for ${dropdown.textContent}`);
                 let channelId;
-                fetch("/api/channel/filter", {
+                fetch(pythonURI + "/api/channel/filter", {
                   ...fetchOptions,
                   method: "POST",
                   body: JSON.stringify({
                     group_name: "Classes",
-                    channel_name: "classlist"
-                  })
+                    channel_name: "classlist",
+                  }),
                 })
+                  .then((res) => res.json())
+                  .then((json) => {
+                    //alert(JSON.stringify(json));
+                    channelId = json.id;
+                    console.log(channelId);
+
+                    fetch(pythonURI + "/api/post/user", {
+                      ...fetchOptions,
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        let periodList = data.sort(
+                          (period) => period.channel_name === "classlist"
+                        );
+
+                        let makeNewPost = true;
+                        let oldpost = null;
+                        periodList.forEach((period) => {
+                          if (period.title === dropdown.textContent) {
+                            makeNewPost = false;
+                            oldpost = period;
+                          }
+                        });
+
+                        if (makeNewPost) {
+                          fetch(pythonURI + "/api/post", {
+                            ...fetchOptions,
+                            method: "POST",
+                            body: JSON.stringify({
+                              title: dropdown.textContent,
+                              comment:
+                                "Class choice for " + dropdown.textContent,
+                              content: {
+                                class: _class,
+                              },
+                              channel_id: channelId,
+                            }),
+                          });
+                        } else {
+                          fetch(`${pythonURI}/api/post`, {
+                            ...fetchOptions,
+                            method: "PUT",
+                            body: JSON.stringify({
+                              id: oldpost.id,
+                              title: `${oldpost.title}`,
+                              content: {
+                                class: _class,
+                              },
+                              channel_id: channelId,
+                            }),
+                          });
+                        }
+                      });
+                  });
               };
               classButtonContainer.appendChild(button);
             });
@@ -374,4 +425,3 @@ permalink: /ai_homework_bot/
     background-color: #45a049;
   }
 </style>
-
