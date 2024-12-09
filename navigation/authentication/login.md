@@ -141,7 +141,7 @@ show_reading_time: false
         return response.json();
       })
       .then((data) => {
-        window.location.href = "{{site.baseurl}}/profile";
+        window.location.href = "{{site.baseurl}}/";
       })
       .catch((error) => {
         console.error("Python Database Error:", error);
