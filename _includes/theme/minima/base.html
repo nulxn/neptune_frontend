@@ -62,8 +62,6 @@
     <div class="wrapper">{{ content }}</div>
   </main>
 
-  {%- include theme/minima/footer.html -%}
-
   <style>
     /* Full-Page Background with Strong Glowing Effect */
     body {
@@ -121,7 +119,6 @@
     document.addEventListener("DOMContentLoaded", function () {
       document.getElementsByClassName("wrapper")[1].style.opacity = 0;
       document.querySelector("header").style.opacity = 0;
-      document.querySelector("footer").style.opacity = 0;
 
       let cookies = document.cookie.split("; ");
       cookies.forEach((cookie) => {
@@ -155,12 +152,6 @@
             });
             anime({
               targets: "header",
-              opacity: [0, 1],
-              duration: 1000,
-              easing: "easeInOutQuad",
-            });
-            anime({
-              targets: "footer",
               opacity: [0, 1],
               duration: 1000,
               easing: "easeInOutQuad",
