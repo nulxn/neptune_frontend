@@ -5,6 +5,7 @@ search_exclude: true
 menu: nav/home.html
 permalink: /ai_homework_bot/
 ---
+
 <!-- Full-Page Poseidon Homework Bot -->
 <div id="poseidon-bot-container" style="
     display: flex;
@@ -85,7 +86,6 @@ permalink: /ai_homework_bot/
         </button>
     </div>
 </div>
-
 <!-- JavaScript for Chatbot -->
 <script>
     var pythonURI;
@@ -109,8 +109,7 @@ permalink: /ai_homework_bot/
     };
 
     // Chatbot Logic
-    async function sendQuestion() {
-        const question = document.getElementById("question").value;
+    async function sendQuestion(question) {
         const chatBox = document.getElementById("chat-box");
 
         // Display the user's question
@@ -141,26 +140,57 @@ permalink: /ai_homework_bot/
 
     // Record voice and convert to text
     function recordVoice() {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
+        try {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US'; // Set language to English (US)
+            recognition.interimResults = false; // Do not display partial results
+            recognition.maxAlternatives = 1; // Limit results to one alternative
 
-        recognition.start();
+            recognition.start();
 
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            alert(`You said: ${transcript}`);
-    };
+            recognition.onstart = () => {
+                console.log('Speech recognition started. Please speak...');
+            };
 
-    recognition.onerror = (event) => {
-        console.error(`Speech Recognition Error: ${event.error}`);
-        alert(`Error occurred: ${event.error}`);
-    };
-}
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript; // Get the recognized text
+                console.log(`Voice input: ${transcript}`);
+                sendQuestion(transcript); // Send the recognized text as a question
+            };
 
-    
+            recognition.onend = () => {
+                console.log('Speech recognition ended.');
+            };
+
+            recognition.onerror = (event) => {
+                console.error(`Speech Recognition Error: ${event.error}`);
+                if (event.error === 'not-allowed') {
+                    alert('Microphone access denied. Please enable permissions.');
+                } else if (event.error === 'network') {
+                    alert('Network error occurred. Please check your internet connection.');
+                } else if (event.error === 'no-speech') {
+                    alert('No speech detected. Please try again.');
+                } else {
+                    alert(`An error occurred: ${event.error}`);
+                }
+            };
+        } catch (error) {
+            console.error('Speech Recognition is not supported in this browser.', error);
+            alert('Speech Recognition is not supported in this browser. Please try Google Chrome.');
+        }
+    }
+
+    // Attach the sendQuestion function to the "Ask Poseidon" button
+    document.querySelector('button[onclick="sendQuestion()"]').addEventListener('click', () => {
+        const question = document.getElementById("question").value.trim();
+        if (question) {
+            sendQuestion(question);
+        } else {
+            alert("Please enter a question or use the Record feature!");
+        }
+    });
 </script>
+
 
 <!-- Optional CSS -->
 <style>
