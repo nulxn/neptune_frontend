@@ -148,7 +148,7 @@ permalink: /ai_homework_bot/
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     overflow: hidden;
-    font-family: &quot;Arial&quot;, sans-serif;
+    font-family: Arial, sans-serif;
   "
 >
   <div
@@ -301,8 +301,16 @@ permalink: /ai_homework_bot/
               button.className = "class-button";
               button.textContent = _class;
               button.onclick = function () {
-                alert(`You selected ${_class} for ${dropdown.textContent}`);
-                // Add any additional functionality for the selected class
+                //alert(`You selected ${_class} for ${dropdown.textContent}`);
+                let channelId;
+                fetch("/api/channel/filter", {
+                  ...fetchOptions,
+                  method: "POST",
+                  body: JSON.stringify({
+                    group_name: "Classes",
+                    channel_name: "classlist"
+                  })
+                })
               };
               classButtonContainer.appendChild(button);
             });
@@ -366,3 +374,4 @@ permalink: /ai_homework_bot/
     background-color: #45a049;
   }
 </style>
+
