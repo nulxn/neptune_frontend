@@ -1,6 +1,6 @@
 ---
 layout: post
-title:
+title: 
 permalink: /choose_classes/
 menu: nav/home.html
 search_exclude: true
@@ -140,11 +140,7 @@ show_reading_time: false
   };
 
   // Object to track selected classes for each period
-  const selectedClasses = JSON.parse(localStorage.getItem("selectedClasses")) || {};
-
-  function saveSelectedClasses() {
-    localStorage.setItem("selectedClasses", JSON.stringify(selectedClasses));
-  }
+  const selectedClasses = {};
 
   function getClasses() {
     fetch(`${pythonURI}/api/classes`, fetchOptions)
@@ -154,9 +150,6 @@ show_reading_time: false
 
         // Add click functionality to each "Period" button
         document.querySelectorAll(".dropdown").forEach((dropdown) => {
-          // Apply saved highlights on page load
-          applySavedHighlight(dropdown);
-
           dropdown.onclick = function () {
             // Check if the dropdown is already open
             if (dropdown.classList.contains("open")) {
@@ -194,9 +187,6 @@ show_reading_time: false
                   // Update selected class for this period
                   selectedClasses[dropdown.textContent] = _class;
 
-                  // Save to localStorage
-                  saveSelectedClasses();
-
                   // Remove 'selected-class' from all buttons within the same period
                   const siblings = classButtonContainer.querySelectorAll(
                     ".class-button"
@@ -231,19 +221,6 @@ show_reading_time: false
     while (nextElement && nextElement.classList.contains("class-buttons")) {
       nextElement.remove();
       nextElement = dropdown.nextElementSibling;
-    }
-  }
-
-  function applySavedHighlight(dropdown) {
-    const period = dropdown.textContent;
-    if (selectedClasses[period]) {
-      // Create a placeholder to show the selected class
-      let savedHighlight = document.createElement("div");
-      savedHighlight.className = "selected-highlight";
-      savedHighlight.style.marginTop = "10px";
-      savedHighlight.style.color = "limegreen";
-      savedHighlight.textContent = `Selected: ${selectedClasses[period]}`;
-      dropdown.insertAdjacentElement("afterend", savedHighlight);
     }
   }
 
