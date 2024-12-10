@@ -11,30 +11,25 @@ show_reading_time: false
   .header-container {
     display: flex;
     align-items: center;
-    /* Ensures vertical alignment between logo and title */
     justify-content: center;
     margin-bottom: 30px;
   }
 
   .logo-container {
     margin-right: 25px;
-    /* Adds space between the logo and text */
   }
 
   .logo-container img {
     height: 110px;
-    /* Increased logo size */
     width: auto;
   }
 
   h1 {
     font-size: 3.5rem;
-    /* Keeps heading size proportional to the logo */
     color: white;
     margin: 0;
     display: flex;
     align-items: center;
-    /* Aligns text with the center of the logo */
   }
 
   .dropdown-container {
@@ -46,13 +41,10 @@ show_reading_time: false
     background: linear-gradient(135deg, #4e4e4e, #1a1a1a);
     color: white;
     font-size: 2rem;
-    /* Larger font size */
     border: none;
     border-radius: 30px;
     padding: 25px 40px;
-    /* Increased padding for larger button size */
     width: 350px;
-    /* Increased width */
     text-align: left;
     cursor: pointer;
     margin: 20px auto;
@@ -67,9 +59,7 @@ show_reading_time: false
   .dropdown:hover {
     background: linear-gradient(135deg, #6a6a6a, #2d2d2d);
     transform: scale(1.1);
-    /* Slightly larger hover effect */
     margin-bottom: 30px;
-    /* Increased spacing on hover */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   }
 
@@ -80,9 +70,35 @@ show_reading_time: false
   .dropdown::after {
     content: "▼";
     font-size: 1.5rem;
-    /* Increased arrow size */
     margin-left: 10px;
   }
+
+  .class-buttons {
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .class-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .class-button:hover {
+    background-color: #45a049;
+  }
+
+  .selected-class {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+}
+
 </style>
 
 <!-- Header with Logo and Title -->
@@ -102,115 +118,6 @@ show_reading_time: false
   <button class="dropdown">Period 5</button>
 </div>
 
-<!-- Ai Homework Bot Integration Code--?>
----
-layout: base
-title: Ai Homework Bot
-search_exclude: true
-permalink: /ai_homework_bot/
----
-<!-- Poseidon Homework Bot Floating Button -->
-<div
-  id="ai-bot-button"
-  style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #0056b3; /* Deeper ocean blue */
-    color: white;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-size: 20px;
-    text-align: center;
-  "
->
-  🔱
-  <!-- Trident Icon -->
-</div>
-
-<!-- Poseidon Homework Bot Popup Modal -->
-<div
-  id="ai-bot-popup"
-  style="
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 320px;
-    background-color: #f0faff; /* Light background */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-  "
->
-  <div
-    style="
-      background-color: #0077be; /* Ocean blue */
-      color: white;
-      padding: 10px;
-      font-size: 18px;
-      text-align: center;
-    "
-  >
-    Poseidon Homework Bot
-    <span id="close-bot" style="float: right; cursor: pointer">&times;</span>
-  </div>
-  <div
-    id="chat-box"
-    style="
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
-      background-color: #e0f7ff; /* Very light sea blue */
-      border-bottom: 2px solid #0077be;
-    "
-  ></div>
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-      gap: 10px;
-      background-color: #0077be;
-    "
-  >
-    <input
-      type="text"
-      id="question"
-      placeholder="Type your question here"
-      style="
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: white; /* Light box background */
-        color: #0056b3; /* Deep blue text */
-      "
-    />
-    <button
-      onclick="sendQuestion()"
-      style="
-        width: 100%;
-        padding: 10px;
-        background-color: #0056b3; /* Darker blue for the button */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-      "
-    >
-      Ask Poseidon
-    </button>
-  </div>
-</div>
-
-<!-- JavaScript for Chatbot -->
 <script>
   var pythonURI;
   if (location.hostname === "localhost") {
@@ -232,60 +139,18 @@ permalink: /ai_homework_bot/
     },
   };
 
-  // Toggle Popup
-  const botButton = document.getElementById("ai-bot-button");
-  const botPopup = document.getElementById("ai-bot-popup");
-  const closeBot = document.getElementById("close-bot");
-
-  botButton.addEventListener("click", () => {
-    botPopup.style.display = "block";
-  });
-
-  closeBot.addEventListener("click", () => {
-    botPopup.style.display = "none";
-  });
-
-  // Chatbot Logic
-  async function sendQuestion() {
-    const question = document.getElementById("question").value;
-    const chatBox = document.getElementById("chat-box");
-
-    // Show the user's question in the chat
-    chatBox.innerHTML += `
-            <div style="margin-bottom: 10px; background: #e8f4ff; padding: 10px; border-radius: 8px;">
-                <strong style="color: #0056b3;">You:</strong> 
-                <span style="color: #0056b3;">${question}</span>
-            </div>`;
-
-    // Send the question to the backend
-    const response = await fetch(`${pythonURI}/api/ai/help`, {
-      ...fetchOptions,
-      method: "POST",
-      body: JSON.stringify({ question }),
-    });
-
-    // Get and display the AI's response
-    const data = await response.json();
-    const aiResponse = data.response || "Error: Unable to fetch response.";
-
-    chatBox.innerHTML += `
-            <div style="margin-bottom: 10px; background: #0077be; padding: 10px; border-radius: 8px; color: white;">
-                <strong>Poseidon:</strong> ${aiResponse}
-            </div>`;
-    document.getElementById("question").value = ""; // Clear input
-    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
-  }
+  // Object to track selected classes for each period
+  const selectedClasses = {};
 
   function getClasses() {
     fetch(`${pythonURI}/api/classes`, fetchOptions)
       .then((res) => res.json())
       .then((json) => {
-        let classes = json.response; // Array of class names
+        let classes = json.response;
 
         // Add click functionality to each "Period" button
         document.querySelectorAll(".dropdown").forEach((dropdown) => {
           dropdown.onclick = function () {
-            // Clear existing buttons for this period
             clearExistingClassButtons(dropdown);
 
             // Create a container for class buttons
@@ -297,8 +162,28 @@ permalink: /ai_homework_bot/
               let button = document.createElement("button");
               button.className = "class-button";
               button.textContent = _class;
+
+              // Apply highlight if this class is selected for this period
+              if (selectedClasses[dropdown.textContent] === _class) {
+                button.classList.add("selected-class");
+              }
+
               button.onclick = function () {
-                //alert(`You selected ${_class} for ${dropdown.textContent}`);
+                // Update selected class for this period
+                selectedClasses[dropdown.textContent] = _class;
+
+                // Remove 'selected-class' from all buttons within the same period
+                const siblings = classButtonContainer.querySelectorAll(
+                  ".class-button"
+                );
+                siblings.forEach((sibling) =>
+                  sibling.classList.remove("selected-class")
+                );
+
+                // Add 'selected-class' to the clicked button
+                button.classList.add("selected-class");
+
+                // Update backend with the selected class
                 let channelId;
                 fetch(pythonURI + "/api/channel/filter", {
                   ...fetchOptions,
@@ -310,10 +195,7 @@ permalink: /ai_homework_bot/
                 })
                   .then((res) => res.json())
                   .then((json) => {
-                    //alert(JSON.stringify(json));
                     channelId = json.id;
-                    console.log(channelId);
-
                     fetch(pythonURI + "/api/post/user", {
                       ...fetchOptions,
                     })
@@ -363,6 +245,7 @@ permalink: /ai_homework_bot/
                       });
                   });
               };
+
               classButtonContainer.appendChild(button);
             });
 
@@ -376,7 +259,6 @@ permalink: /ai_homework_bot/
       });
   }
 
-  // Helper function to clear existing class buttons
   function clearExistingClassButtons(dropdown) {
     let nextElement = dropdown.nextElementSibling;
     while (nextElement && nextElement.classList.contains("class-buttons")) {
@@ -388,40 +270,3 @@ permalink: /ai_homework_bot/
   getClasses();
 </script>
 
-<!-- Optional CSS -->
-<style>
-  /* Button Hover Effect */
-  #ai-bot-button:hover {
-    background-color: #003f6b;
-  }
-
-  /* Chatbox Scrollbar */
-  #chat-box::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  #chat-box::-webkit-scrollbar-thumb {
-    background: #0077be;
-    border-radius: 5px;
-  }
-
-  .class-buttons {
-    margin: 10px 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .class-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .class-button:hover {
-    background-color: #45a049;
-  }
-</style>
