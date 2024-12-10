@@ -151,106 +151,63 @@ show_reading_time: false
         // Add click functionality to each "Period" button
         document.querySelectorAll(".dropdown").forEach((dropdown) => {
           dropdown.onclick = function () {
-            clearExistingClassButtons(dropdown);
+            // Check if the dropdown is already open
+            if (dropdown.classList.contains("open")) {
+              // If open, close it and remove the "open" class
+              clearExistingClassButtons(dropdown);
+              dropdown.classList.remove("open");
+            } else {
+              // If not open, close all dropdowns and open this one
+              document
+                .querySelectorAll(".dropdown.open")
+                .forEach((d) => {
+                  clearExistingClassButtons(d);
+                  d.classList.remove("open");
+                });
 
-            // Create a container for class buttons
-            let classButtonContainer = document.createElement("div");
-            classButtonContainer.className = "class-buttons";
+              // Add the "open" class to this dropdown
+              dropdown.classList.add("open");
 
-            // Create a button for each class
-            classes.forEach((_class) => {
-              let button = document.createElement("button");
-              button.className = "class-button";
-              button.textContent = _class;
+              // Create a container for class buttons
+              let classButtonContainer = document.createElement("div");
+              classButtonContainer.className = "class-buttons";
 
-              // Apply highlight if this class is selected for this period
-              if (selectedClasses[dropdown.textContent] === _class) {
-                button.classList.add("selected-class");
-              }
+              // Create a button for each class
+              classes.forEach((_class) => {
+                let button = document.createElement("button");
+                button.className = "class-button";
+                button.textContent = _class;
 
-              button.onclick = function () {
-                // Update selected class for this period
-                selectedClasses[dropdown.textContent] = _class;
+                // Apply highlight if this class is selected for this period
+                if (selectedClasses[dropdown.textContent] === _class) {
+                  button.classList.add("selected-class");
+                }
 
-                // Remove 'selected-class' from all buttons within the same period
-                const siblings = classButtonContainer.querySelectorAll(
-                  ".class-button"
-                );
-                siblings.forEach((sibling) =>
-                  sibling.classList.remove("selected-class")
-                );
+                button.onclick = function () {
+                  // Update selected class for this period
+                  selectedClasses[dropdown.textContent] = _class;
 
-                // Add 'selected-class' to the clicked button
-                button.classList.add("selected-class");
+                  // Remove 'selected-class' from all buttons within the same period
+                  const siblings = classButtonContainer.querySelectorAll(
+                    ".class-button"
+                  );
+                  siblings.forEach((sibling) =>
+                    sibling.classList.remove("selected-class")
+                  );
 
-                // Update backend with the selected class
-                let channelId;
-                fetch(pythonURI + "/api/channel/filter", {
-                  ...fetchOptions,
-                  method: "POST",
-                  body: JSON.stringify({
-                    group_name: "Classes",
-                    channel_name: "classlist",
-                  }),
-                })
-                  .then((res) => res.json())
-                  .then((json) => {
-                    channelId = json.id;
-                    fetch(pythonURI + "/api/post/user", {
-                      ...fetchOptions,
-                    })
-                      .then((response) => response.json())
-                      .then((data) => {
-                        let periodList = data.sort(
-                          (period) => period.channel_name === "classlist"
-                        );
+                  // Add 'selected-class' to the clicked button
+                  button.classList.add("selected-class");
 
-                        let makeNewPost = true;
-                        let oldpost = null;
-                        periodList.forEach((period) => {
-                          if (period.title === dropdown.textContent) {
-                            makeNewPost = false;
-                            oldpost = period;
-                          }
-                        });
+                  // Update backend with the selected class
+                  updateBackend(dropdown.textContent, _class);
+                };
 
-                        if (makeNewPost) {
-                          fetch(pythonURI + "/api/post", {
-                            ...fetchOptions,
-                            method: "POST",
-                            body: JSON.stringify({
-                              title: dropdown.textContent,
-                              comment:
-                                "Class choice for " + dropdown.textContent,
-                              content: {
-                                class: _class,
-                              },
-                              channel_id: channelId,
-                            }),
-                          });
-                        } else {
-                          fetch(`${pythonURI}/api/post`, {
-                            ...fetchOptions,
-                            method: "PUT",
-                            body: JSON.stringify({
-                              id: oldpost.id,
-                              title: `${oldpost.title}`,
-                              content: {
-                                class: _class,
-                              },
-                              channel_id: channelId,
-                            }),
-                          });
-                        }
-                      });
-                  });
-              };
+                classButtonContainer.appendChild(button);
+              });
 
-              classButtonContainer.appendChild(button);
-            });
-
-            // Append class buttons below the period button
-            dropdown.insertAdjacentElement("afterend", classButtonContainer);
+              // Append class buttons below the period button
+              dropdown.insertAdjacentElement("afterend", classButtonContainer);
+            }
           };
         });
       })
@@ -267,6 +224,67 @@ show_reading_time: false
     }
   }
 
+  function updateBackend(period, _class) {
+    let channelId;
+    fetch(pythonURI + "/api/channel/filter", {
+      ...fetchOptions,
+      method: "POST",
+      body: JSON.stringify({
+        group_name: "Classes",
+        channel_name: "classlist",
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        channelId = json.id;
+        fetch(pythonURI + "/api/post/user", {
+          ...fetchOptions,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let periodList = data.sort(
+              (period) => period.channel_name === "classlist"
+            );
+
+            let makeNewPost = true;
+            let oldpost = null;
+            periodList.forEach((periodObj) => {
+              if (periodObj.title === period) {
+                makeNewPost = false;
+                oldpost = periodObj;
+              }
+            });
+
+            if (makeNewPost) {
+              fetch(pythonURI + "/api/post", {
+                ...fetchOptions,
+                method: "POST",
+                body: JSON.stringify({
+                  title: period,
+                  comment: "Class choice for " + period,
+                  content: {
+                    class: _class,
+                  },
+                  channel_id: channelId,
+                }),
+              });
+            } else {
+              fetch(`${pythonURI}/api/post`, {
+                ...fetchOptions,
+                method: "PUT",
+                body: JSON.stringify({
+                  id: oldpost.id,
+                  title: `${oldpost.title}`,
+                  content: {
+                    class: _class,
+                  },
+                  channel_id: channelId,
+                }),
+              });
+            }
+          });
+      });
+  }
+
   getClasses();
 </script>
-
