@@ -1,119 +1,110 @@
 ---
 layout: base
-title: Choose Your Classes
+title: Posts
 search_exclude: true
 permalink: /posts/
 ---
 
-{% raw %}
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Simple Chatroom</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+<script>
+  const socket = io.connect("http://127.0.0.1:8887");
+  socket.on('connect', () => {
+    console.log('Connected to the server');
+  });
+
+  socket.on('chat_message', (data) => {
+    displayMessage(`${data.user}: ${data.text}`);
+  });
+
+  function sendMessage() {
+    const username = document.getElementById('usernameInput').value;
+    const message = document.getElementById('messageInput').value;
+
+    if (username && message) {
+      socket.emit('chat_message', { user: username, text: message });
+      document.getElementById('messageInput').value = '';
+    }
+  }
+
+  function displayMessage(message) {
+    const messageList = document.getElementById('messages');
+    const newMessage = document.createElement('li');
+    newMessage.textContent = message;
+    messageList.appendChild(newMessage);
+  }
+</script>
+
+<div class="chatroom">
+  <h2>Chat</h2>
+  <input id="usernameInput" placeholder="Name" />
+  <input id="messageInput" placeholder="Message" />
+  <button onclick="sendMessage()">Send</button>
+  <div id="messages"></div>
+</div>
 
 <style>
-  body,
-  html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: url(https://i.ibb.co/87GbbFP/2799006.jpg) no-repeat !important;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -3;
-    color: white;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Chatroom Container */
   .chatroom {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-    width: 100%;
+    width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  /* Chat Messages */
-  .chat-container {
-    flex: 1;
-    overflow-y: auto;
+  .chatroom h2 {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  #usernameInput,
+  #messageInput {
+    width: calc(100% - 20px);
     padding: 10px;
-  }
-
-  .message {
-    max-width: 70%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    word-wrap: break-word;
-  }
-
-  .message.left {
-    background-color: #444;
-    color: white;
-    align-self: flex-start;
-  }
-
-  .message.right {
-    background-color: #007bff;
-    color: white;
-    align-self: flex-end;
-  }
-
-  /* Input Section */
-  .input-container {
-    display: flex;
-    padding: 10px;
-    background: #333;
-    border-top: 1px solid #444;
-    display: none;
-  }
-
-  input {
-    flex: 1;
-    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    outline: none;
-    color: black;
   }
 
   button {
+    width: 100%;
     padding: 10px;
-    font-size: 14px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
   }
 
   button:hover {
-    opacity: 0.8;
+    background-color: #45a049;
   }
 
-  /* Button Colors */
-  .buttonred {
-    background-color: red !important;
-    color: white !important;
+  #messages {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
   }
 
-  .buttongreen {
-    background-color: green !important;
-    color: white !important;
+  #messages li {
+    list-style-type: none;
+    padding: 5px 0;
+    border-bottom: 1px solid #f1f1f1;
+    color: black;
   }
 
-  .buttonblue {
-    background-color: blue !important;
-    color: white !important;
+  #messages li:last-child {
+    border-bottom: none;
   }
+<<<<<<< HEAD
 
   .buttonyellow {
     background-color: yellow !important;
@@ -350,3 +341,6 @@ permalink: /posts/
   }
 </script>
 {% endraw %}
+=======
+</style>
+>>>>>>> 57a9fea (chatroom frontend)
