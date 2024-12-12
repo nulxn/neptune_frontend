@@ -7,3 +7,78 @@ search_exclude: true
 show_reading_time: false
 ---
 
+<script>
+  var pythonURI;
+  if (location.hostname === "localhost") {
+    pythonURI = "http://localhost:8887";
+  } else if (location.hostname === "127.0.0.1") {
+    pythonURI = "http://127.0.0.1:8887";
+  } else {
+    pythonURI = "https://flocker.nighthawkcodingsociety.com";
+  }
+  const fetchOptions = {
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "default", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "include", // include, same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      "X-Origin": "client", // New custom header to identify source
+    },
+  };
+
+  fetch(`${pythonURI}/api/users`, fetchOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      let users = data.filter(
+        (u) =>
+          u.name.includes("Nolan") ||
+          u.name.includes("Kanhay") ||
+          u.name.includes("Arya")
+      );
+
+      console.log(users);
+
+      users.forEach((user) => {
+        let row = document.createElement("tr");
+
+        let nameCell = document.createElement("td");
+        nameCell.textContent = user.name;
+        row.appendChild(nameCell);
+
+        let emailCell = document.createElement("td");
+        emailCell.textContent = user.id;
+        row.appendChild(emailCell);
+
+        let roleCell = document.createElement("td");
+        roleCell.textContent = user.role;
+        row.appendChild(roleCell);
+
+        let uidCell = document.createElement("td");
+        uidCell.textContent = user.uid;
+        row.appendChild(uidCell);
+
+        let themeModeCell = document.createElement("td");
+        themeModeCell.textContent = user.theme_mode;
+        row.appendChild(themeModeCell);
+
+        document.getElementById("userTableBody").appendChild(row);
+      });
+    });
+</script>
+
+<div class="about">
+  <h2>All of the developers of Neptune</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Role</th>
+        <th>uid</th>
+        <th>Theme Mode</th>
+      </tr>
+    </thead>
+    <tbody id="userTableBody"></tbody>
+  </table>
+</div>
