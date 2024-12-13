@@ -18,7 +18,7 @@ permalink: /ai_homework_bot/
       #4f91d8,
       #1c5faa
     ); /* Full-page gradient */
-    font-family: 'Arial', sans-serif;
+    font-family: &quot;Arial&quot;, sans-serif;
     color: white;
   "
 >
@@ -86,7 +86,9 @@ permalink: /ai_homework_bot/
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
       "
     >
       Ask Poseidon
@@ -103,7 +105,9 @@ permalink: /ai_homework_bot/
         border-radius: 5px;
         cursor: pointer;
         margin-left: 10px;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
       "
     >
       🎙️ Record
@@ -193,7 +197,7 @@ permalink: /ai_homework_bot/
           alert("Microphone access denied. Please enable permissions.");
         } else if (event.error === "network") {
           alert(
-            "Network error occurred. Please check your internet connection."
+            "Network error occurred. Please check your internet connection.",
           );
         } else if (event.error === "no-speech") {
           alert("No speech detected. Please try again.");
@@ -204,10 +208,10 @@ permalink: /ai_homework_bot/
     } catch (error) {
       console.error(
         "Speech Recognition is not supported in this browser.",
-        error
+        error,
       );
       alert(
-        "Speech Recognition is not supported in this browser. Please try Google Chrome."
+        "Speech Recognition is not supported in this browser. Please try Google Chrome.",
       );
     }
   }

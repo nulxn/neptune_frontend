@@ -29,7 +29,6 @@ show_reading_time: false
   </button>
 </div>
 
-
 <style>
   .hub {
     width: 800px;
