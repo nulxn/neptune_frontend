@@ -1,3 +1,12 @@
+---
+layout: post
+title: Schedule
+permalink: /schedule/
+menu: nav/home.html
+search_exclude: true
+show_reading_time: false
+---
+
 <!-- Header Section: Logo and Title -->
 <div class="header-container">
   <div class="logo-container">
@@ -6,31 +15,20 @@
   <h1>Schedule</h1>
 </div>
 
+<button onclick="window.location.href = '{{ site.baseurl }}/choose_classes'">
+  Change Classes
+</button>
+
 <!-- Main Content Container -->
 <div id="contentContainer">
   <!-- Left Section: Period Buttons (Dropdowns) -->
   <div class="dropdown-section">
     <div class="mini-dropdown-container">
       <div class="mini-dropdown" data-period="1">Period 1</div>
-      <ul class="dropdown-content">
-        <!-- Dropdown options will be populated dynamically -->
-      </ul>
       <div class="mini-dropdown" data-period="2">Period 2</div>
-      <ul class="dropdown-content">
-        <!-- Dropdown options will be populated dynamically -->
-      </ul>
       <div class="mini-dropdown" data-period="3">Period 3</div>
-      <ul class="dropdown-content">
-        <!-- Dropdown options will be populated dynamically -->
-      </ul>
       <div class="mini-dropdown" data-period="4">Period 4</div>
-      <ul class="dropdown-content">
-        <!-- Dropdown options will be populated dynamically -->
-      </ul>
       <div class="mini-dropdown" data-period="5">Period 5</div>
-      <ul class="dropdown-content">
-        <!-- Dropdown options will be populated dynamically -->
-      </ul>
     </div>
   </div>
 
@@ -92,10 +90,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    text-shadow:
-      0 0 10px #1e90ff,
-      0 0 20px #1e90ff,
-      0 0 30px #1e90ff;
+    text-shadow: 0 0 10px #1e90ff, 0 0 20px #1e90ff, 0 0 30px #1e90ff;
     padding: 10px;
   }
 
@@ -113,27 +108,6 @@
     width: 100%;
   }
 
-  .mini-dropdown {
-    background: linear-gradient(135deg, #4e4e4e, #1a1a1a);
-    color: white;
-    font-size: 1.5rem;
-    border: none;
-    border-radius: 20px;
-    padding: 15px 20px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    margin: 10px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition:
-      transform 0.2s ease,
-      background 0.3s ease,
-      box-shadow 0.3s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   .mini-dropdown:hover {
     background: linear-gradient(135deg, #6a6a6a, #2d2d2d);
     transform: scale(1.05);
@@ -142,12 +116,6 @@
 
   .mini-dropdown:focus {
     outline: none;
-  }
-
-  .mini-dropdown::after {
-    content: "▼";
-    font-size: 1.2rem;
-    margin-left: 10px;
   }
 
   /* SVG and Circle Styling */
@@ -226,9 +194,13 @@
 
     let message;
     if (now < schoolStart) {
-      message = `School starts in ${Math.floor((schoolStart - now) / 60000)} minutes.`;
+      message = `School starts in ${Math.floor(
+        (schoolStart - now) / 60000
+      )} minutes.`;
     } else if (now < schoolEnd) {
-      message = `Hours left of school: ${Math.ceil((schoolEnd - now) / 60000 / 60)} hour(s).`;
+      message = `Hours left of school: ${Math.ceil(
+        (schoolEnd - now) / 60000 / 60
+      )} hour(s).`;
     } else {
       message = "School is over for the day.";
     }
@@ -237,5 +209,61 @@
   }
 
   updateProgress();
-  setInterval(updateProgress, 60000);
+  setInterval(updateProgress, 1000);
+
+  var pythonURI;
+  if (location.hostname === "localhost") {
+    pythonURI = "http://localhost:8887";
+  } else if (location.hostname === "127.0.0.1") {
+    pythonURI = "http://127.0.0.1:8887";
+  } else {
+    pythonURI = "https://flocker.nighthawkcodingsociety.com";
+  }
+
+  const fetchOptions = {
+    method: "GET",
+    mode: "cors",
+    cache: "default",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Origin": "client",
+    },
+  };
+
+  function getClasses() {
+    let channelId;
+    fetch(pythonURI + "/api/channel/filter", {
+      ...fetchOptions,
+      method: "POST",
+      body: JSON.stringify({
+        group_name: "Classes",
+        channel_name: "classlist",
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        channelId = json.id;
+        fetch(pythonURI + "/api/post/user", {
+          ...fetchOptions,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let periodList = data.sort(
+              (period) => period.channel_name === "classlist"
+            );
+
+            periodList.forEach((period) => {
+              let el = document.querySelector(`[data-period='${period.title.split(" ")[1]}']`);
+              let txtp = document.createElement("p");
+              let txtnode = document.createTextNode(
+                period.content.class || "Not Chosen"
+              );
+              txtp.appendChild(txtnode);
+              el.appendChild(txtp);
+            });
+          });
+      });
+  }
+  getClasses();
 </script>
