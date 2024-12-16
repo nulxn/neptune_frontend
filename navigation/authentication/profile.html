@@ -242,8 +242,14 @@ show_reading_time: false
                 <option value="light">Light</option>
             </select>
             <button id="applytheme">Apply Theme</button>
-        </div>
 
+            <button
+            id="side1"
+            onclick="window.location.href='/neptune_frontend/choose_classes'"
+            class="side-btn"
+          >
+            Change Classes
+          </button>
         <button id="changePasswordButton" onclick="openPasswordModal(event)">Change Password</button>
         <div id="passwordModal" class="modal">
             <div class="modal-content">
@@ -255,6 +261,7 @@ show_reading_time: false
                     <label for="newPassword">New Password</label>
                     <input type="password" id="newPassword" placeholder="Enter new password">
                 </form>
+            </div>
             </div>
         </div>
     </div>
