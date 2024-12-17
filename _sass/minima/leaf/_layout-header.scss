@@ -12,6 +12,19 @@
   font-weight: 600;
 }
 
+.site-header::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 15px;
+  background-image: url("/neptune_frontend/images/tinsel.png");
+  background-repeat: repeat-x;
+  background-size: contain;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .site-title {
   @include relative-font-size(1.625);
   letter-spacing: -1px !important;
