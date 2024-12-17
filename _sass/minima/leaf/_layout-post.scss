@@ -69,6 +69,24 @@ article,
     background: transparent;
     box-shadow: none;
   }
+
+  border: 3px solid red;
+  animation: border-color-change 5s infinite;
+
+  @keyframes border-color-change {
+    0% {
+      border-color: red;
+    }
+    33% {
+      border-color: green;
+    }
+    66% {
+      border-color: yellow;
+    }
+    100% {
+      border-color: red;
+    }
+  }
 }
 .comments {
   @media screen and (min-width: $on-mobile) {
