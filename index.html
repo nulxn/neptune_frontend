@@ -328,7 +328,7 @@ show_reading_time: false
       body: JSON.stringify({
         friends: JSON.stringify([...friends, { id, name }]),
       }),
-    });
+    }).then(window.location.reload());
   }
 
   function getAllUsers() {
