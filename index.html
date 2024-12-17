@@ -8,53 +8,23 @@ show_reading_time: false
 
 <h1>Welcome to Neptune!</h1>
 
-<div style="display: flex; justify-content: center; align-items: center; height: 40vh;">
-  <img src="navigation/images/neptune.png" alt="Neptune">
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+  "
+>
+  <img src="navigation/images/neptune.png" alt="Neptune" />
 </div>
-
 
 <div class="sidebar">
   <h3>Your Ring</h3>
-  <button class="friend-btn" data-debate="Friend 1" data-channel-id="17">
-    Akshaj
-  </button>
-  <button class="friend-btn" data-debate="Friend 2" data-channel-id="18">
-    Shawn
-  </button>
-  <button class="friend-btn" data-debate="Friend 3" data-channel-id="19">
-    Arya
-  </button>
-  <button class="friend-btn" data-debate="Friend 4" data-channel-id="20">
-    Yash
-  </button>
-  <button class="friend-btn" data-debate="Friend 5" data-channel-id="21">
-    Nolan
-  </button>
-  <button class="friend-btn" data-debate="Friend 6" data-channel-id="22">
-    Kanhay
-  </button>
 </div>
 
 <div class="sidebar1">
   <h3>Add Friends</h3>
-  <button class="new-friend-btn" data-debate="Friend 7" data-channel-id="23">
-    Patty Mahomes
-  </button>
-  <button class="new-friend-btn" data-debate="Friend 8" data-channel-id="24">
-    Michael Jackson
-  </button>
-  <button class="new-friend-btn" data-debate="Friend 9" data-channel-id="25">
-    Lil Nas X
-  </button>
-  <button class="new-friend-btn" data-debate="Friend 10" data-channel-id="26">
-    Ansh Kumar
-  </button>
-  <button class="new-friend-btn" data-debate="Friend 11" data-channel-id="27">
-    Mbappe
-  </button>
-  <button class="new-friend-btn" data-debate="Friend 12" data-channel-id="28">
-    Mr.Mortensen
-  </button>
 </div>
 
 <div class="container">
@@ -89,9 +59,8 @@ show_reading_time: false
   </section>
 </div>
 
-
-<div class = "logo">
-  <img src="navigation/images/dnhs_logo.png" alt="DNHS">
+<div class="logo">
+  <img src="navigation/images/dnhs_logo.png" alt="DNHS" />
 </div>
 
 <style>
@@ -195,8 +164,10 @@ show_reading_time: false
     font-family: "Roboto", sans-serif;
     background: linear-gradient(to right, #013b54, #4b1f30);
     color: #fff;
-    margin: 0; /* Remove default margin */
-    min-height: 100vh; /* Ensure the body takes full height */
+    margin: 0;
+    /* Remove default margin */
+    min-height: 100vh;
+    /* Ensure the body takes full height */
     display: flex;
     flex-direction: column;
   }
@@ -228,12 +199,8 @@ show_reading_time: false
     margin: auto;
     text-align: center;
     padding: 2rem;
-    background: rgba(
-      26,
-      26,
-      26,
-      0.9
-    ); /* Slightly transparent to see the background */
+    background: rgba(26, 26, 26, 0.9);
+    /* Slightly transparent to see the background */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -311,37 +278,10 @@ show_reading_time: false
   }
 </style>
 
-<div id="bubble-container"></div>;
+<div id="bubble-container"></div>
+;
 
 <script>
-
-  function createBubble() {
-    const bubble = document.createElement("div");
-    bubble.classList.add("bubble");
-
-    // Randomize bubble properties
-    const size = Math.random() * 40 + 10; // Size between 10px and 50px
-    const position = Math.random() * 100; // Horizontal position as a percentage
-    const duration = Math.random() * 3 + 2; // Duration between 2s and 5s
-
-    bubble.style.width = `${size}px`;
-    bubble.style.height = `${size}px`;
-    bubble.style.left = `${position}vw`; // Random horizontal position
-    bubble.style.animationDuration = `${duration}s`; // Randomize animation duration
-
-    // Append the bubble to the bubble container
-    const bubbleContainer = document.getElementById("bubble-container");
-    bubbleContainer.appendChild(bubble);
-
-    // Remove the bubble after 5 seconds
-    setTimeout(() => {
-      bubble.remove();
-    }, 5000);
-  }
-
-  // Generate bubbles at intervals
-  setInterval(createBubble, 500); // Create a bubble every 500ms
-
   var pythonURI;
   if (location.hostname === "localhost") {
     pythonURI = "http://localhost:8887";
@@ -362,5 +302,55 @@ show_reading_time: false
     },
   };
 
-  fetch(`${pythonURI}/api/userfriends`, fetchOptions).then(res => res.json()).then(json => console.log("hson", json))
+  let friends = [];
+  async function getFriends() {
+    fetch(`${pythonURI}/api/userfriends`, fetchOptions)
+      .then((res) => res.json())
+      .then((json) => {
+        friends = JSON.parse(json.friends);
+        let ringEl = document.getElementsByClassName("sidebar")[0];
+        friends.forEach((friend) => {
+          let btn = document.createElement("button");
+          btn.classList = "friend-btn";
+
+          let txt = document.createTextNode(friend.name);
+          btn.appendChild(txt);
+          ringEl.appendChild(btn);
+        });
+      });
+  }
+  getFriends();
+
+  async function addFriend(id, name) {
+    fetch(`${pythonURI}/api/user`, {
+      ...fetchOptions,
+      method: "PUT",
+      body: JSON.stringify({
+        friends: JSON.stringify([...friends, { id, name }]),
+      }),
+    });
+  }
+
+  function getAllUsers() {
+    fetch(`${pythonURI}/api/users`, fetchOptions)
+      .then((res) => res.json())
+      .then((json) => {
+        let users = json;
+        let addEl = document.getElementsByClassName("sidebar1")[0];
+
+        users.forEach((user) => {
+          let _btn = document.createElement("button");
+          _btn.classList = "friend-btn";
+
+          let _txt = document.createTextNode(user.name);
+          _btn.appendChild(_txt);
+
+          _btn.onclick = () => {
+            addFriend(user.id, user.name);
+          };
+          addEl.appendChild(_btn);
+        });
+      });
+  }
+  getAllUsers();
 </script>
