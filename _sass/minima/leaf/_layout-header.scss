@@ -1,5 +1,6 @@
 .site-header {
-  position: fixed;
+  position: relative;
+  z-index: 999;
   top: 0;
   left: 0;
   width: 100%;
@@ -31,8 +32,9 @@
   margin-bottom: 0 !important;
   float: left !important;
   align-items: left !important;
-  position: fixed;
-  top: 10px;
+  position: relative !important;
+  z-index: 99 !important;
+  padding-left: 35rem;
   right: 72.5%;
 
   &:hover {

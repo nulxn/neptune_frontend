@@ -65,11 +65,15 @@
 
     <div class="wrapper">
       <div class="snow"></div>
-      {{ content }}
+      <div class="abovesnow">{{ content }}</div>
     </div>
   </main>
 
   <style>
+    .abovesnow {
+      z-index: 99 !important;
+      position: relative !important;
+    }
     .hidden-pg {
       display: none !important;
     }
