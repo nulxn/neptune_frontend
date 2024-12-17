@@ -311,8 +311,9 @@ show_reading_time: false
   }
 </style>
 
+<div id="bubble-container"></div>;
+
 <script>
-  <div id="bubble-container"></div>;
 
   function createBubble() {
     const bubble = document.createElement("div");
@@ -340,4 +341,26 @@ show_reading_time: false
 
   // Generate bubbles at intervals
   setInterval(createBubble, 500); // Create a bubble every 500ms
+
+  var pythonURI;
+  if (location.hostname === "localhost") {
+    pythonURI = "http://localhost:8887";
+  } else if (location.hostname === "127.0.0.1") {
+    pythonURI = "http://127.0.0.1:8887";
+  } else {
+    pythonURI = "https://flocker.nighthawkcodingsociety.com";
+  }
+
+  const fetchOptions = {
+    method: "GET",
+    mode: "cors",
+    cache: "default",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Origin": "client",
+    },
+  };
+
+  fetch(`${pythonURI}/api/userfriends`, fetchOptions).then(res => res.json()).then(json => console.log("hson", json))
 </script>
