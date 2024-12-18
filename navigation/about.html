@@ -32,12 +32,12 @@ show_reading_time: false
     .then((data) => {
       let users = data.filter(
         (u) =>
-          u.name.includes("Nolan") ||
-          u.name.includes("Kanhay") ||
-          u.name.includes("Shawn") ||
-          u.name.includes("Akshaj") ||
-          u.name.includes("Yash") ||
-          u.name.includes("Arya")
+          u.name.toLowerCase().includes("nolan") ||
+          u.name.toLowerCase().includes("kanhay") ||
+          u.name.toLowerCase().includes("shawn") ||
+          u.name.toLowerCase().includes("akshaj") ||
+          u.name.toLowerCase().includes("yash") ||
+          u.name.toLowerCase().includes("arya")
       );
 
       console.log(users);
